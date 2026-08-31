@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DET 110 — Phòng luyện</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,600;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16233C;
+  --ink-2:#33415C;
+  --paper:#FDFBF5;
+  --card:#FFFFFF;
+  --amber:#E8930C;
+  --amber-soft:#FDF0D8;
+  --teal:#0F7A63;
+  --teal-soft:#E2F2EE;
+  --coral:#C93F31;
+  --coral-soft:#FBE7E4;
+  --muted:#7A879B;
+  --line:#DCE2EC;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Be Vietnam Pro',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-weight:400;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+button{font-family:inherit;cursor:pointer}
+input,textarea{font-family:inherit}
+
+/* ---------- shell ---------- */
+.wrap{max-width:1040px;margin:0 auto;padding:22px 18px 90px}
+
+header.top{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  gap:18px;flex-wrap:wrap;
+  border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:20px;
+}
+.brand h1{
+  font-size:clamp(26px,5vw,40px);font-weight:800;letter-spacing:-.03em;
+  margin:0;line-height:1.05;
+}
+.brand p{margin:4px 0 0;color:var(--muted);font-size:14px}
+.goal{
+  text-align:right;font-size:13px;color:var(--ink-2);line-height:1.4;
+}
+.goal b{display:block;font-size:30px;font-weight:800;letter-spacing:-.02em;color:var(--amber)}
+
+/* ---------- nav ---------- */
+nav.drills{
+  display:flex;gap:8px;overflow-x:auto;padding-bottom:10px;margin-bottom:20px;
+  scrollbar-width:thin;
+}
+nav.drills button{
+  flex:0 0 auto;background:transparent;border:1.5px solid var(--line);
+  color:var(--ink-2);padding:9px 15px;border-radius:999px;font-size:13.5px;font-weight:600;
+  white-space:nowrap;transition:background .15s,border-color .15s,color .15s;
+}
+nav.drills button:hover{border-color:var(--ink-2)}
+nav.drills button[aria-selected="true"]{
+  background:var(--ink);border-color:var(--ink);color:#fff;
+}
+nav.drills button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+
+/* ---------- panel ---------- */
+.panel{display:none}
+.panel.active{display:block}
+.panel-head{margin-bottom:14px}
+.panel-head h2{font-size:21px;font-weight:800;letter-spacing:-.02em;margin:0 0 4px}
+.panel-head p{margin:0;color:var(--muted);font-size:14px;max-width:70ch}
+
+.card{
+  background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius);
+  padding:22px;box-shadow:0 1px 0 rgba(22,35,60,.04);
+}
+.card + .card{margin-top:14px}
+
+/* ---------- timer bar ---------- */
+.timerbar{height:6px;background:var(--line);border-radius:99px;overflow:hidden;margin-bottom:18px}
+.timerbar i{display:block;height:100%;background:var(--amber);width:100%;border-radius:99px}
+.timerbar.urgent i{background:var(--coral)}
+
+/* ---------- buttons ---------- */
+.btn{
+  border:1.5px solid var(--ink);background:var(--ink);color:#fff;
+  padding:11px 22px;border-radius:10px;font-size:15px;font-weight:600;
+}
+.btn:hover{background:var(--ink-2);border-color:var(--ink-2)}
+.btn.ghost{background:transparent;color:var(--ink);}
+.btn.ghost:hover{background:#EEF1F6}
+.btn.yes{background:var(--teal);border-color:var(--teal);min-width:150px}
+.btn.no{background:var(--coral);border-color:var(--coral);min-width:150px}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.row.center{justify-content:center}
+
+/* ---------- score chip ---------- */
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.chip{
+  font-size:12.5px;font-weight:600;padding:5px 12px;border-radius:99px;
+  background:#EEF1F6;color:var(--ink-2);
+}
+.chip.good{background:var(--teal-soft);color:var(--teal)}
+.chip.bad{background:var(--coral-soft);color:var(--coral)}
+.chip.warn{background:var(--amber-soft);color:#8A5A05}
+
+/* ---------- read & select ---------- */
+.bigword{
+  font-size:clamp(38px,9vw,66px);font-weight:800;letter-spacing:-.03em;
+  text-align:center;padding:40px 10px 34px;min-height:150px;
+  display:flex;align-items:center;justify-content:center;
+}
+.verdict{text-align:center;font-size:15px;font-weight:600;min-height:26px;margin-top:6px}
+.verdict.ok{color:var(--teal)}
+.verdict.ng{color:var(--coral)}
+
+.wordlog{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.wordlog span{
+  font-size:12.5px;padding:3px 9px;border-radius:6px;font-weight:600;
+}
+.wordlog span.ok{background:var(--teal-soft);color:var(--teal)}
+.wordlog span.ng{background:var(--coral-soft);color:var(--coral);text-decoration:line-through}
+
+/* ---------- cloze ---------- */
+.cloze{font-size:17px;line-height:2.5;letter-spacing:.01em}
+.cloze .stub{font-weight:600}
+.cloze input{
+  border:none;border-bottom:2px solid var(--amber);background:var(--amber-soft);
+  font-size:16px;font-weight:600;padding:2px 3px;text-align:left;
+  color:var(--ink);border-radius:3px 3px 0 0;
+}
+.cloze input:focus{outline:none;background:#FBE3B4}
+.cloze input.ok{background:var(--teal-soft);border-bottom-color:var(--teal);color:var(--teal)}
+.cloze input.ng{background:var(--coral-soft);border-bottom-color:var(--coral);color:var(--coral)}
+.answerline{margin-top:10px;font-size:14px;color:var(--teal);font-weight:600}
+
+/* ---------- listen ---------- */
+.transcript{
+  font-size:17px;line-height:1.9;margin-top:14px;padding:14px;
+  background:#F7F8FB;border-radius:10px;border:1px solid var(--line);
+}
+.transcript b.ok{color:var(--teal)}
+.transcript b.ng{color:var(--coral);text-decoration:underline wavy}
+textarea.type{
+  width:100%;min-height:88px;border:1.5px solid var(--line);border-radius:10px;
+  padding:12px;font-size:16px;line-height:1.6;resize:vertical;
+}
+textarea.type:focus{outline:none;border-color:var(--amber)}
+
+/* ---------- flashcard ---------- */
+.flash{
+  min-height:210px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;gap:10px;padding:20px;
+}
+.flash .w{font-size:clamp(30px,7vw,48px);font-weight:800;letter-spacing:-.03em}
+.flash .pos{font-size:13px;color:var(--muted);font-style:italic}
+.flash .vn{font-size:21px;font-weight:600;color:var(--amber)}
+.flash .ex{font-size:15px;color:var(--ink-2);max-width:52ch;font-style:italic}
+.hidden{visibility:hidden}
+
+/* ---------- writing ---------- */
+.scene{
+  background:var(--amber-soft);border-left:4px solid var(--amber);
+  padding:14px 16px;border-radius:0 10px 10px 0;font-size:15.5px;margin-bottom:14px;
+}
+.model{
+  background:var(--teal-soft);border-left:4px solid var(--teal);
+  padding:14px 16px;border-radius:0 10px 10px 0;font-size:15.5px;margin-top:14px;line-height:1.75;
+}
+.counter{font-size:13px;color:var(--muted);margin-top:6px}
+.counter b{color:var(--ink)}
+.counter.good b{color:var(--teal)}
+
+/* ---------- speaking ---------- */
+.prompt{
+  font-size:19px;font-weight:600;line-height:1.5;padding:18px 0 6px;max-width:60ch;
+}
+.clock{
+  font-size:52px;font-weight:800;letter-spacing:-.04em;font-variant-numeric:tabular-nums;
+}
+.clock.run{color:var(--amber)}
+.clock.over{color:var(--coral)}
+.qlist{margin:0;padding-left:20px;font-size:15px;color:var(--ink-2)}
+.qlist li{margin-bottom:6px}
+.qlist li.now{color:var(--ink);font-weight:700}
+
+/* ---------- tips box ---------- */
+.tip{
+  background:#F2F5F9;border-radius:10px;padding:13px 16px;font-size:14px;
+  color:var(--ink-2);margin-top:14px;
+}
+.tip b{color:var(--ink)}
+
+@media (max-width:640px){
+  .wrap{padding:16px 13px 80px}
+  .card{padding:16px}
+  .goal{text-align:left}
+  header.top{align-items:flex-start}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div class="brand">
+    <h1>Phòng luyện DET</h1>
+    <p>7 bài luyện bám sát 13 dạng câu của Duolingo English Test</p>
+  </div>
+  <div class="goal">Mục tiêu<b>110</b>≈ IELTS 6.0 · CEFR B2</div>
+</header>
+
+<nav class="drills" role="tablist" id="nav"></nav>
+
+<!-- ============ 1. READ AND SELECT ============ -->
+<section class="panel" id="p-select" role="tabpanel">
+  <div class="panel-head">
+    <h2>Read and Select — từ thật hay từ giả</h2>
+    <p>5 giây một từ, xuất hiện 15–18 lần trong bài thi. Tin vào phản xạ đầu tiên; nghĩ lâu là hết giờ.</p>
+  </div>
+  <div class="card">
+    <div class="timerbar" id="sel-bar"><i></i></div>
+    <div class="chips">
+      <span class="chip" id="sel-count">0 / 30</span>
+      <span class="chip good" id="sel-ok">Đúng 0</span>
+      <span class="chip bad" id="sel-ng">Sai 0</span>
+    </div>
+    <div class="bigword" id="sel-word">Bấm Bắt đầu</div>
+    <div class="row center">
+      <button class="btn yes" id="sel-yes" disabled>Từ thật (Yes)</button>
+      <button class="btn no" id="sel-no" disabled>Từ giả (No)</button>
+    </div>
+    <div class="verdict" id="sel-verdict"></div>
+    <div class="row center" style="margin-top:14px">
+      <button class="btn ghost" id="sel-start">Bắt đầu 30 từ</button>
+    </div>
+    <div class="wordlog" id="sel-log"></div>
+    <div class="tip"><b>Mẹo:</b> từ giả thường có tổ hợp chữ cái nghe sai sai (<i>flurment, cradive, quinstle</i>). Đoán sai không bị trừ thêm — nên luôn bấm, đừng để hết giờ.</div>
+  </div>
+</section>
+
+<!-- ============ 2. READ AND COMPLETE ============ -->
+<section class="panel" id="p-cloze" role="tabpanel">
+  <div class="panel-head">
+    <h2>Read and Complete — điền nốt chữ cái</h2>
+    <p>3 phút cho cả đoạn. Đọc hết đoạn TRƯỚC khi điền — ngữ cảnh giải quyết phần lớn các ô. Chỉ chấp nhận chính tả Mỹ.</p>
+  </div>
+  <div class="card">
+    <div class="timerbar" id="cz-bar"><i></i></div>
+    <div class="chips">
+      <span class="chip" id="cz-title"></span>
+      <span class="chip warn" id="cz-time">3:00</span>
+      <span class="chip good hidden" id="cz-score"></span>
+    </div>
+    <div class="cloze" id="cz-body"></div>
+    <div class="row" style="margin-top:18px">
+      <button class="btn" id="cz-check">Chấm bài</button>
+      <button class="btn ghost" id="cz-next">Đoạn khác</button>
+    </div>
+    <div class="tip"><b>Nhớ:</b> để trống và điền sai bị tính điểm như nhau → luôn điền một cái gì đó vào mọi ô.</div>
+  </div>
+</section>
+
+<!-- ============ 3. FILL IN THE BLANKS ============ -->
+<section class="panel" id="p-fib" role="tabpanel">
+  <div class="panel-head">
+    <h2>Fill in the Blanks — điền từ vào câu</h2>
+    <p>20 giây một câu. Đọc hết câu trước: ngữ pháp xung quanh cho biết cần danh từ, động từ hay từ nối.</p>
+  </div>
+  <div class="card">
+    <div class="timerbar" id="fb-bar"><i></i></div>
+    <div class="chips">
+      <span class="chip" id="fb-count">0 / 25</span>
+      <span class="chip good" id="fb-ok">Đúng 0</span>
+      <span class="chip bad" id="fb-ng">Sai 0</span>
+    </div>
+    <div class="cloze" id="fb-body" style="font-size:19px">Bấm Bắt đầu</div>
+    <div class="answerline" id="fb-ans"></div>
+    <div class="row" style="margin-top:16px">
+      <button class="btn" id="fb-submit" disabled>Trả lời (Enter)</button>
+      <button class="btn ghost" id="fb-start">Bắt đầu</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. LISTEN AND TYPE ============ -->
+<section class="panel" id="p-listen" role="tabpanel">
+  <div class="panel-head">
+    <h2>Listen and Type — nghe chép chính tả</h2>
+    <p>Tối đa 3 lần nghe lại. Lỗi mất điểm nhiều nhất là bỏ sót từ chức năng: <i>a / an / the / in / on / of</i> và đuôi <i>-s</i>.</p>
+  </div>
+  <div class="card">
+    <div class="chips">
+      <span class="chip" id="ls-count">Câu 1 / 25</span>
+      <span class="chip warn" id="ls-plays">Còn 3 lần nghe</span>
+      <span class="chip" id="ls-acc">Độ chính xác —</span>
+    </div>
+    <div class="row">
+      <button class="btn" id="ls-play">▶ Nghe</button>
+      <button class="btn ghost" id="ls-slow">▶ Nghe chậm</button>
+    </div>
+    <textarea class="type" id="ls-input" placeholder="Gõ chính xác những gì nghe được…" style="margin-top:14px"></textarea>
+    <div class="row" style="margin-top:12px">
+      <button class="btn" id="ls-check">Chấm</button>
+      <button class="btn ghost" id="ls-next">Câu tiếp</button>
+    </div>
+    <div class="transcript hidden" id="ls-result"></div>
+    <div class="tip"><b>Chiến thuật 3 lần nghe:</b> lần 1 nắm ý — lần 2 điền chỗ trống — lần 3 CHỈ soát mạo từ, giới từ và số nhiều.<br>
+    <span style="color:var(--muted)">Âm thanh dùng giọng đọc của trình duyệt. Mở bằng Chrome hoặc Edge để có giọng tiếng Anh chuẩn nhất.</span></div>
+  </div>
+</section>
+
+<!-- ============ 5. VOCAB ============ -->
+<section class="panel" id="p-vocab" role="tabpanel">
+  <div class="panel-head">
+    <h2>Danh sách từ bắt buộc</h2>
+    <p>Mỗi ngày 10 từ. Nhìn từ → tự nói nghĩa → lật thẻ kiểm tra. Từ nào sai thì bấm “Chưa thuộc” để nó quay lại.</p>
+  </div>
+  <div class="card">
+    <div class="chips">
+      <span class="chip" id="vc-count"></span>
+      <span class="chip good" id="vc-known">Thuộc 0</span>
+      <span class="chip bad" id="vc-todo">Chưa thuộc 0</span>
+    </div>
+    <div class="flash" id="vc-card">
+      <div class="w" id="vc-word">—</div>
+      <div class="pos hidden" id="vc-pos"></div>
+      <div class="vn hidden" id="vc-vn"></div>
+      <div class="ex hidden" id="vc-ex"></div>
+    </div>
+    <div class="row center">
+      <button class="btn ghost" id="vc-flip">Lật thẻ</button>
+      <button class="btn yes" id="vc-yes">Thuộc rồi</button>
+      <button class="btn no" id="vc-no">Chưa thuộc</button>
+    </div>
+    <div class="row center" style="margin-top:12px">
+      <button class="btn ghost" id="vc-reset">Trộn lại từ đầu</button>
+      <button class="btn ghost" id="vc-speak">🔊 Nghe phát âm</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6. WRITING ============ -->
+<section class="panel" id="p-write" role="tabpanel">
+  <div class="panel-head">
+    <h2>Viết — Photo, Interactive Writing, Writing Sample</h2>
+    <p>Write About the Photo xuất hiện 3 lần liên tiếp và ảnh hưởng 3 subscore cùng lúc. Đây là chỗ dễ lên điểm nhất.</p>
+  </div>
+
+  <div class="card">
+    <div class="chips">
+      <span class="chip" id="wp-count"></span>
+      <span class="chip warn" id="wp-time">60 giây</span>
+    </div>
+    <div class="timerbar" id="wp-bar"><i></i></div>
+    <div class="scene" id="wp-scene"></div>
+    <textarea class="type" id="wp-input" placeholder="Viết 2–3 câu tiếng Anh mô tả cảnh trên (40–50 từ)…" style="min-height:110px"></textarea>
+    <div class="counter" id="wp-counter">Số từ: <b>0</b> — mục tiêu 40–50</div>
+    <div class="row" style="margin-top:12px">
+      <button class="btn" id="wp-start">Bắt đầu 60 giây</button>
+      <button class="btn ghost" id="wp-show">Xem bài mẫu</button>
+      <button class="btn ghost" id="wp-next">Ảnh khác</button>
+    </div>
+    <div class="model hidden" id="wp-model"></div>
+    <div class="tip"><b>Công thức 3 câu:</b> (1) người/vật ở tiền cảnh đang làm gì → (2) bối cảnh phía sau → (3) suy đoán có rào đón bằng <i>appears to be / seems to / looks like</i>.</div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin:0 0 10px;font-size:17px;font-weight:800">Interactive Writing — 2 giai đoạn</h3>
+    <div class="scene" id="iw-prompt"></div>
+    <div class="row">
+      <button class="btn" id="iw-p1">Phase 1 — 5 phút</button>
+      <button class="btn ghost" id="iw-p2">Phase 2 — 3 phút</button>
+      <button class="btn ghost" id="iw-next">Đề khác</button>
+      <span class="chip warn" id="iw-time">—</span>
+    </div>
+    <div class="timerbar" id="iw-bar" style="margin-top:12px"><i></i></div>
+    <textarea class="type" id="iw-input" placeholder="Phase 1: ~120 từ. Phase 2: ~80 từ và bắt buộc phải có Ý MỚI." style="min-height:150px"></textarea>
+    <div class="counter" id="iw-counter">Số từ: <b>0</b></div>
+    <div class="tip"><b>Lỗi trừ điểm nặng nhất ở Phase 2:</b> viết lại ý của Phase 1 bằng từ khác. Bắt buộc thêm phản biện, hệ quả thực tế, hoặc một ví dụ hoàn toàn mới.</div>
+  </div>
+</section>
+
+<!-- ============ 7. SPEAKING ============ -->
+<section class="panel" id="p-speak" role="tabpanel">
+  <div class="panel-head">
+    <h2>Nói — Photo, Read Then Speak, Interactive Speaking</h2>
+    <p>Bấm ghi âm, nói, rồi nghe lại chính mình. Đây là cách tiến bộ nhanh nhất trong 12 ngày.</p>
+  </div>
+
+  <div class="card">
+    <div class="row" style="justify-content:space-between">
+      <div class="chips" style="margin:0">
+        <span class="chip" id="sp-mode">Read Then Speak</span>
+        <span class="chip warn" id="sp-limit">90 giây</span>
+      </div>
+      <div class="clock" id="sp-clock">0:00</div>
+    </div>
+    <div class="prompt" id="sp-prompt"></div>
+    <div class="row">
+      <button class="btn" id="sp-go">Bắt đầu nói + ghi âm</button>
+      <button class="btn ghost" id="sp-stop" disabled>Dừng</button>
+      <button class="btn ghost" id="sp-next">Đề khác</button>
+    </div>
+    <div class="row" style="margin-top:8px">
+      <button class="btn ghost" id="sp-m1">Chế độ: Read Then Speak (90s)</button>
+      <button class="btn ghost" id="sp-m2">Chế độ: Speak About the Photo (75s)</button>
+      <button class="btn ghost" id="sp-m3">Chế độ: Interactive Speaking (35s × 6)</button>
+    </div>
+    <ol class="qlist hidden" id="sp-qlist" style="margin-top:14px"></ol>
+    <audio id="sp-audio" controls class="hidden" style="width:100%;margin-top:14px"></audio>
+    <div class="tip"><b>Khi nghe lại, tự chấm 3 điểm:</b> có bao nhiêu lần “um / uh” · có nói đủ lập trường + 2 lý do không · có bị đọc chậm rồi đứt quãng không. Im lặng 1 giây tốt hơn một tiếng “um”.</div>
+  </div>
+</section>
+
+</div>
+<script>
+const DATA = {"real": ["abandon", "abundant", "accelerate", "accommodate", "accurate", "acquire", "adequate", "adjacent", "advocate", "aesthetic", "affluent", "aggregate", "allocate", "ambiguous", "amend", "analogy", "anticipate", "arbitrary", "articulate", "aspire", "assemble", "assert", "attain", "attribute", "authentic", "autonomy", "beneficial", "bias", "brittle", "calibrate", "candid", "capacity", "cease", "clarify", "coherent", "coincide", "collapse", "commence", "commodity", "compel", "compile", "complement", "comply", "comprehensive", "concise", "condense", "confine", "consecutive", "consent", "consolidate", "constrain", "contradict", "converge", "convey", "cultivate", "cumulative", "deduce", "deficient", "deliberate", "denote", "depict", "deprive", "derive", "deteriorate", "devise", "diminish", "discrete", "disperse", "displace", "distort", "diverse", "dominate", "dubious", "durable", "elaborate", "elicit", "eliminate", "elusive", "embrace", "emerge", "empirical", "endorse", "endure", "enhance", "entail", "equivalent", "erode", "evoke", "exceed", "exclude", "exert", "exhibit", "expedite", "explicit", "exploit", "extract", "facilitate", "fluctuate", "foster", "fragment", "framework", "generate", "hinder", "hypothesis", "identical", "ignite", "illuminate", "immerse", "impair", "implement", "implicit", "impose", "incentive", "incorporate", "indicate", "induce", "inevitable", "infer", "inherent", "inhibit", "initiate", "innovate", "insight", "integrate", "intervene", "intricate", "intrinsic", "invoke", "isolate", "justify", "legitimate", "leverage", "magnitude", "mandate", "manipulate", "marginal", "mediate", "migrate", "mitigate", "modify", "monitor", "mundane", "negligible", "notion", "nurture", "obscure", "obsolete", "offset", "optimal", "outweigh", "overlap", "paradigm", "paramount", "perceive", "persist", "pertinent", "phenomenon", "plausible", "portray", "precede", "precise", "predominant", "preliminary", "presume", "prevail", "prominent", "propel", "prospect", "provoke", "pursue", "radical", "reciprocal", "reconcile", "refine", "refute", "regulate", "reinforce", "reluctant", "render", "replicate", "resemble", "reside", "resilient", "resolve", "restrain", "retain", "retrieve", "reveal", "revise", "rigid", "robust", "scarce", "scrutiny", "sequence", "simulate", "situate", "sparse", "specify", "speculate", "stagnant", "stimulate", "stringent", "subordinate", "subsequent", "substantial", "subtle", "sufficient", "sustain", "synthesis", "tangible", "tedious", "terminate", "threshold", "transient", "transmit", "trigger", "ubiquitous", "undergo", "underlying", "undermine", "uniform", "utilize", "versatile", "viable", "vibrant", "vigorous", "vivid", "volatile", "warrant", "widespread", "yield"], "fake": ["blurmit", "cradive", "flurment", "grandule", "pertious", "mondage", "trabble", "quinstle", "hasterly", "plentious", "cormant", "dilthy", "ferrick", "gulmate", "hantic", "jorbid", "kelvate", "lombric", "marbute", "nequal", "obtrune", "pandrel", "quorbid", "ristend", "sablent", "tercove", "undrate", "vantile", "wemble", "xanture", "yordant", "zilment", "ambrate", "benthive", "drivant", "eclamp", "frantile", "gantive", "hurdent", "imprate", "jantle", "klimber", "lantive", "mordell", "nurbent", "ostrave", "plentic", "quandle", "rustrate", "sindle", "trambel", "umberate", "vandrel", "wintle", "yaster", "zorbent", "adrentic", "blantice", "chorvent", "dremble", "elpharin", "ferbile", "glumping", "hesple", "indrate", "jasplen", "kentral", "lubrance", "misprance", "nordity", "oplement", "prandle", "quilmet", "rombent", "spedrick", "tarmile", "unbrile", "vestile", "wrandle", "yembic", "zaltive", "alcrove", "bramite", "croftel", "dolvent", "embric", "flantic", "gribbel", "halmose", "inklate", "jorvane", "kraddle", "lonquet", "murbid", "nastive", "orblent", "pruntal", "quaffet", "ridgement", "spantle", "thrundle", "ulmate", "vroken", "whimtle", "yandric", "zeprine", "tavernous", "bilcrest", "dorlish", "ferantic", "grimsel", "harpten", "inclave", "jomble", "kestrid", "lantrum", "mavelt", "nurbile", "ostrid", "pilverk", "quandrel", "rasteem", "shorvel", "tunbric", "verlish"], "vocab": [["abundant", "adj", "dồi dào, phong phú", "Water is abundant in this region."], ["accelerate", "v", "tăng tốc, đẩy nhanh", "The plan accelerated our progress."], ["accommodate", "v", "chứa được; đáp ứng", "The hall can accommodate 500 people."], ["acquire", "v", "thu được, học được", "She acquired fluency in two years."], ["adequate", "adj", "đủ, thoả đáng", "The budget is adequate for the project."], ["adjacent", "adj", "kề bên, liền kề", "The library is adjacent to the gym."], ["advocate", "v/n", "ủng hộ; người ủng hộ", "He advocates for free education."], ["aesthetic", "adj", "thuộc về thẩm mỹ", "The design has strong aesthetic appeal."], ["allocate", "v", "phân bổ", "Funds were allocated to research."], ["ambiguous", "adj", "mơ hồ, đa nghĩa", "The instructions were ambiguous."], ["anticipate", "v", "dự đoán, lường trước", "We anticipate a rise in demand."], ["arbitrary", "adj", "tuỳ tiện, không có căn cứ", "The rule seems arbitrary."], ["articulate", "v/adj", "diễn đạt rõ ràng", "She articulated her ideas clearly."], ["attain", "v", "đạt được", "He attained a high score."], ["attribute", "v/n", "quy cho; đặc điểm", "They attribute the success to teamwork."], ["authentic", "adj", "chân thực, xác thực", "This is an authentic document."], ["beneficial", "adj", "có lợi", "Exercise is beneficial to health."], ["bias", "n", "thiên kiến, định kiến", "The study showed a clear bias."], ["capacity", "n", "sức chứa; năng lực", "The stadium has a capacity of 60,000."], ["cease", "v", "ngừng, chấm dứt", "The rain ceased at noon."], ["coherent", "adj", "mạch lạc", "He gave a coherent explanation."], ["coincide", "v", "trùng khớp", "Our views coincide on this issue."], ["commence", "v", "bắt đầu (trang trọng)", "The ceremony will commence at nine."], ["compel", "v", "buộc phải", "Poverty compelled him to work."], ["comply", "v", "tuân thủ", "All staff must comply with the rules."], ["comprehensive", "adj", "toàn diện", "We need a comprehensive review."], ["concise", "adj", "ngắn gọn, súc tích", "Keep your answer concise."], ["consecutive", "adj", "liên tiếp", "It rained for five consecutive days."], ["consent", "n/v", "sự đồng ý", "Parental consent is required."], ["constrain", "v", "hạn chế, ràng buộc", "Time constrained our options."], ["contradict", "v", "mâu thuẫn với", "The data contradict the theory."], ["convey", "v", "truyền đạt", "The photo conveys a sense of calm."], ["cultivate", "v", "vun đắp; trồng trọt", "She cultivated good study habits."], ["deduce", "v", "suy ra", "We can deduce the cause from the data."], ["deliberate", "adj/v", "cố ý; cân nhắc", "It was a deliberate decision."], ["depict", "v", "khắc hoạ, mô tả", "The painting depicts a village."], ["deteriorate", "v", "xấu đi, suy giảm", "His health deteriorated quickly."], ["devise", "v", "nghĩ ra, thiết kế", "They devised a new method."], ["diminish", "v", "giảm bớt", "Interest diminished over time."], ["distort", "v", "bóp méo", "The report distorts the facts."], ["diverse", "adj", "đa dạng", "The class is culturally diverse."], ["dubious", "adj", "đáng ngờ", "The claim is dubious."], ["durable", "adj", "bền", "These shoes are durable."], ["elaborate", "v/adj", "nói chi tiết; công phu", "Could you elaborate on that?"], ["eliminate", "v", "loại bỏ", "We must eliminate errors."], ["emerge", "v", "xuất hiện, nổi lên", "A new trend has emerged."], ["emphasis", "n", "sự nhấn mạnh", "The emphasis is on accuracy."], ["endorse", "v", "tán thành, ủng hộ công khai", "The board endorsed the plan."], ["endure", "v", "chịu đựng; kéo dài", "They endured harsh conditions."], ["enhance", "v", "nâng cao", "Reading enhances vocabulary."], ["entail", "v", "kéo theo, đòi hỏi", "The job entails frequent travel."], ["equivalent", "adj/n", "tương đương", "110 is equivalent to IELTS 6.0."], ["evoke", "v", "gợi lên", "The song evokes memories."], ["exceed", "v", "vượt quá", "Costs exceeded the budget."], ["exert", "v", "gây ra, dùng (sức, ảnh hưởng)", "She exerts great influence."], ["explicit", "adj", "rõ ràng, minh thị", "He gave explicit instructions."], ["facilitate", "v", "tạo điều kiện, hỗ trợ", "Technology facilitates learning."], ["fluctuate", "v", "dao động", "Prices fluctuate daily."], ["foster", "v", "nuôi dưỡng, thúc đẩy", "Group work fosters cooperation."], ["framework", "n", "khung, cơ cấu", "We need a clear framework."], ["hinder", "v", "cản trở", "Noise hinders concentration."], ["hypothesis", "n", "giả thuyết", "The hypothesis was confirmed."], ["identical", "adj", "giống hệt", "The twins look identical."], ["illuminate", "v", "chiếu sáng; làm sáng tỏ", "Lamps illuminate the street."], ["implement", "v", "triển khai", "The school implemented a new policy."], ["implicit", "adj", "ngầm hiểu", "There was an implicit agreement."], ["impose", "v", "áp đặt", "The government imposed a tax."], ["incentive", "n", "động lực, khuyến khích", "Bonuses are a strong incentive."], ["inevitable", "adj", "không thể tránh khỏi", "Change is inevitable."], ["infer", "v", "suy luận", "We can infer his mood from the tone."], ["inherent", "adj", "vốn có", "Risk is inherent in investing."], ["initiate", "v", "khởi xướng", "She initiated the discussion."], ["insight", "n", "cái nhìn sâu sắc", "The book offers useful insights."], ["integrate", "v", "tích hợp, hoà nhập", "The app integrates with email."], ["intervene", "v", "can thiệp", "The teacher intervened in the argument."], ["intricate", "adj", "phức tạp, tinh xảo", "The pattern is intricate."], ["justify", "v", "biện minh", "Can you justify this expense?"], ["legitimate", "adj", "chính đáng, hợp pháp", "That is a legitimate concern."], ["magnitude", "n", "quy mô, độ lớn", "The magnitude of the problem is huge."], ["mitigate", "v", "giảm nhẹ", "Trees mitigate air pollution."], ["modify", "v", "sửa đổi", "We modified the design."], ["monitor", "v", "theo dõi, giám sát", "Doctors monitor his condition."], ["negligible", "adj", "không đáng kể", "The difference is negligible."], ["notion", "n", "khái niệm, ý niệm", "The notion is widely accepted."], ["obscure", "adj/v", "khó hiểu; che khuất", "The meaning is obscure."], ["obsolete", "adj", "lỗi thời", "The software is obsolete."], ["offset", "v", "bù đắp", "Savings offset the cost."], ["optimal", "adj", "tối ưu", "This is the optimal solution."], ["outweigh", "v", "nặng hơn, quan trọng hơn", "The benefits outweigh the risks."], ["overlap", "v/n", "chồng lấn", "Our schedules overlap."], ["perceive", "v", "nhận thức", "People perceive risk differently."], ["persist", "v", "kiên trì; kéo dài", "The problem persists."], ["phenomenon", "n", "hiện tượng", "Migration is a global phenomenon."], ["plausible", "adj", "hợp lý, nghe được", "That is a plausible explanation."], ["precede", "v", "đi trước", "A short talk preceded the film."], ["preliminary", "adj", "sơ bộ", "These are preliminary results."], ["prevail", "v", "thắng thế, phổ biến", "Common sense prevailed."], ["prominent", "adj", "nổi bật", "She is a prominent scientist."], ["prospect", "n", "triển vọng", "The prospects are promising."], ["pursue", "v", "theo đuổi", "He pursued a career in medicine."], ["reinforce", "v", "củng cố", "Practice reinforces memory."], ["reluctant", "adj", "miễn cưỡng", "She was reluctant to speak."], ["resemble", "v", "giống với", "He resembles his father."], ["resilient", "adj", "kiên cường, bật lại nhanh", "Children are remarkably resilient."], ["retain", "v", "giữ lại", "The soil retains water."], ["retrieve", "v", "lấy lại, truy xuất", "You can retrieve the file later."], ["rigid", "adj", "cứng nhắc", "The rules are too rigid."], ["robust", "adj", "vững chắc, mạnh mẽ", "We need a robust system."], ["scarce", "adj", "khan hiếm", "Clean water is scarce there."], ["scrutiny", "n", "sự xem xét kỹ", "The plan came under scrutiny."], ["simulate", "v", "mô phỏng", "The program simulates real tests."], ["subsequent", "adj", "tiếp theo sau", "In subsequent years, sales rose."], ["substantial", "adj", "đáng kể", "There was a substantial increase."], ["subtle", "adj", "tinh tế, khó nhận ra", "There is a subtle difference."], ["sufficient", "adj", "đủ", "We have sufficient time."], ["sustain", "v", "duy trì", "It is hard to sustain that pace."], ["tangible", "adj", "hữu hình, cụ thể", "We need tangible results."], ["tedious", "adj", "tẻ nhạt, dài dòng", "The task is tedious."], ["threshold", "n", "ngưỡng", "Scores above this threshold pass."], ["undermine", "v", "làm suy yếu", "Doubt undermines confidence."], ["versatile", "adj", "đa năng", "It is a versatile tool."], ["viable", "adj", "khả thi", "That is a viable option."], ["vivid", "adj", "sống động", "She has a vivid imagination."], ["widespread", "adj", "lan rộng", "The practice is widespread."]], "rc": [{"title": "City parks", "text": "Many cities are building more green spaces. Parks give residents a place to [exercise], relax, and [meet] their neighbours. Research also [suggests] that trees lower the [temperature] of streets during hot [summers]. In addition, plants absorb some of the [pollution] produced by traffic. Because of these [benefits], city planners now [consider] parks essential rather than [decorative]. Some councils even [require] new housing projects to include a small [garden]. Residents who live near a park [report] lower stress levels and better sleep."}, {"title": "Studying abroad", "text": "Studying in another country can be both exciting and [difficult]. Students must adapt to a new [language], a different climate, and unfamiliar [customs]. During the first weeks, many feel [lonely] because they are far from their [families]. However, most students gradually build a [network] of friends and become more [independent]. Universities usually [provide] orientation programmes to help newcomers [settle] in. Those who take part in clubs tend to [adjust] faster than students who stay in their rooms. In the long run, the experience often [improves] both confidence and career prospects."}, {"title": "Sleep and memory", "text": "Scientists have long known that sleep affects [memory]. During deep sleep, the brain [reviews] information collected during the day and [stores] the most important parts. Students who sleep well before an exam usually [perform] better than those who study all [night]. Lack of sleep also reduces the ability to [concentrate] and makes people more [likely] to make careless mistakes. Experts [recommend] at least seven hours of sleep for teenagers. Simple habits, such as avoiding screens before [bedtime], can [improve] sleep quality considerably."}, {"title": "Remote work", "text": "Working from home has become common in many [industries]. Employees save time because they no longer [commute], and they often report a better [balance] between work and family life. Companies can also [reduce] the cost of office space. However, remote work creates new [challenges]. Some workers find it hard to [separate] their job from their personal life, and younger staff may receive less [training] from experienced colleagues. Managers therefore need to [communicate] clearly and [schedule] regular meetings. Many organisations now use a hybrid model that combines both approaches."}, {"title": "Public transport", "text": "Reliable public transport is essential for a modern [city]. Buses and trains carry large numbers of people while using less [energy] per passenger than private cars. When services run [frequently] and on time, more residents choose to leave their vehicles at [home]. This reduces traffic and [improves] air quality. Building new lines is [expensive], but the long-term benefits usually [justify] the investment. Cities that have [invested] in transport report shorter journey times and fewer accidents. Affordable fares are equally [important], especially for students and low-income families."}, {"title": "Learning a language", "text": "Learning a foreign language requires regular [practice] rather than occasional bursts of effort. Most experts agree that studying for twenty minutes every [day] is more effective than three hours once a [week]. Listening to podcasts and watching films helps learners get used to natural [pronunciation]. Speaking, however, is the skill that improves most [slowly] because it requires [confidence] as well as knowledge. Making mistakes is a normal part of the [process]. Learners who accept this tend to [progress] faster than those who wait until they feel [perfect]."}], "fib": [["The museum is open every day [except] Monday.", 2], ["She apologised [for] arriving late.", 1], ["The results were [consistent] with our expectations.", 3], ["He has been living in Tokyo [since] 2019.", 2], ["The company [announced] a new policy last week.", 3], ["Very few students were [aware] of the change.", 2], ["The road was closed [due] to heavy snow.", 1], ["This method is far more [efficient] than the old one.", 3], ["They decided to [postpone] the meeting until Friday.", 3], ["Her explanation was clear and [convincing].", 3], ["The teacher [encouraged] us to ask questions.", 3], ["Please [remind] me to send the report.", 2], ["The price [includes] breakfast and parking.", 3], ["We should [avoid] making the same mistake twice.", 2], ["His argument was based [on] recent evidence.", 1], ["The city [attracts] millions of tourists each year.", 3], ["Nobody was [willing] to take responsibility.", 3], ["The experiment [failed] for a simple reason.", 2], ["I am not [familiar] with this software.", 3], ["The library provides [access] to thousands of books.", 3], ["She spoke [fluently] despite her nerves.", 3], ["There is a strong [demand] for skilled workers.", 3], ["The train was delayed [because] of a signal fault.", 3], ["We need to [reduce] our monthly expenses.", 3], ["The instructions were [surprisingly] complicated.", 4]], "listen": ["The library will be closed on Monday for maintenance.", "Please submit your assignment before the end of the week.", "She decided to take a different route to avoid the traffic.", "The professor asked us to read the first three chapters.", "Most of the students arrived early for the presentation.", "There is a small café on the corner of the street.", "He has been working on this project since last September.", "The weather forecast says it will rain in the afternoon.", "We should discuss the results before making a decision.", "The tickets were much cheaper than I had expected.", "A number of people complained about the noise last night.", "The company plans to open a new office in the city centre.", "I would like to reserve a table for four people at seven.", "Nobody seemed to understand the second part of the question.", "The bus stops directly in front of the main entrance.", "She spent the entire morning preparing for the interview.", "This report contains information about our recent research.", "The children were told to wait outside the classroom.", "It took almost an hour to walk from the station to the hotel.", "The manager will explain the changes at tomorrow's meeting.", "Several members of the team are attending a conference abroad.", "You can pay either by card or in cash at the counter.", "The article describes how the technology has developed.", "We were surprised by how quickly the situation improved.", "Please make sure the door is locked before you leave."], "photos": [["Một người phụ nữ mặc áo khoác đứng ở sân ga, tay cầm cốc cà phê, tàu đang tới, trời xám.", "In this photo, a woman in a dark coat is standing on a train platform, holding a cup of coffee. Behind her, a train appears to be arriving, and the sky looks grey and overcast. She seems to be waiting for her morning commute, and the atmosphere is quiet and slightly cold."], ["Ba học sinh ngồi quanh bàn trong thư viện, sách và laptop mở, một bạn đang chỉ vào màn hình.", "Three students are sitting around a wooden table in what looks like a university library. Books and an open laptop are spread across the table, and one of them is pointing at the screen while the others listen. They appear to be working on a group assignment, and the mood is focused but relaxed."], ["Một người đàn ông lớn tuổi tưới cây trong khu vườn nhỏ trước nhà, nắng chiều.", "An elderly man is watering plants in a small garden in front of a house. He is wearing a wide hat and holding a green hose, and the late afternoon sunlight falls across the flowers. He seems to be enjoying a peaceful daily routine, and the scene feels calm and unhurried."], ["Chợ ngoài trời đông người, các sạp bán trái cây nhiều màu, người bán đang cân hàng.", "This picture shows a busy outdoor market where several stalls are selling colourful fruit and vegetables. In the foreground, a vendor is weighing something on a scale while a customer waits. The market appears to be crowded, and the atmosphere looks lively and noisy."], ["Một cô gái ngồi trên bậc thềm, tai nghe, đang viết vào sổ tay, ba lô bên cạnh.", "A young woman is sitting on a set of concrete steps with headphones on, writing in a notebook. A backpack is placed beside her, which suggests she is a student taking a break between classes. The light is bright, and she seems relaxed and absorbed in what she is doing."], ["Hai người đầu bếp trong bếp nhà hàng, khói bốc lên từ chảo, ánh đèn vàng.", "Two chefs are working side by side in a professional kitchen. Steam is rising from a large pan on the stove, and one of them is adding ingredients while the other checks a plate. The kitchen looks busy, and the warm lighting gives the scene an energetic feeling."], ["Bãi biển lúc hoàng hôn, vài người đi dạo, sóng nhẹ, trời cam hồng.", "This photo shows a wide beach at sunset, with the sky turning orange and pink above the sea. A few people are walking slowly along the shore, and small waves are reaching the sand. It appears to be the end of a warm day, and the overall atmosphere is peaceful."], ["Một người đi xe đạp qua con phố hẹp, hai bên là nhà cũ và cửa hàng nhỏ.", "A man is cycling along a narrow street lined with old buildings and small shops. Some signs hang above the doorways, and a few pedestrians are walking on the pavement. The street looks like part of an older neighbourhood, and the scene feels ordinary and lived-in."]], "writePrompts": ["Some people prefer to study alone, while others prefer to study in a group. Which do you prefer, and why?", "Do you think students should be required to learn a second foreign language at school? Explain your view.", "Describe a place you would like to visit in the future and explain why it interests you.", "Some people say that social media does more harm than good for teenagers. Do you agree?", "Is it better to live in a large city or a small town? Give reasons for your answer.", "Many schools are replacing paper textbooks with tablets. Do you think this is a positive change?", "Describe a skill you would like to learn and explain how you would learn it.", "Should students have a part-time job while they are studying? Why or why not?", "Some people believe that exams are the best way to measure learning. What is your opinion?", "Describe a person who has influenced you and explain what you learned from them."], "speakPrompts": ["Talk about a subject at school that you enjoy. Explain why you find it interesting.", "Describe your daily routine on a typical school day.", "Talk about a time when you had to solve a difficult problem.", "What do you usually do in your free time? Explain why you enjoy it.", "Describe a memorable trip you have taken.", "Do you prefer reading books or watching films? Explain your choice.", "Talk about a goal you want to achieve in the next five years.", "Describe a friend who is important to you and explain why.", "What is one thing you would change about your school, and why?", "Talk about a piece of technology you use every day and how it helps you."], "isets": [["Where do you usually study?", "Why do you prefer studying there?", "Do you ever study with other people?", "What is the biggest distraction when you study?", "How do you deal with that distraction?", "What advice would you give to someone who struggles to focus?"], ["How do you usually get to school?", "How long does the journey take?", "Is public transport in your city reliable?", "What would you improve about it?", "Would you prefer to walk or cycle instead?", "Do you think fewer people will use cars in the future?"], ["What kind of food do you like most?", "Do you cook at home or eat out more often?", "Who taught you to cook?", "Is it important for young people to learn to cook?", "How have eating habits changed in your country?", "Would you recommend a traditional dish to a visitor? Which one?"]]};
+</script>
+<script>
+/* =============== helpers =============== */
+const $ = id => document.getElementById(id);
+const shuffle = a => { const b=a.slice(); for(let i=b.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[b[i],b[j]]=[b[j],b[i]];} return b; };
+const norm = s => (s||'').toLowerCase().replace(/[^a-z0-9' ]/g,' ').replace(/\s+/g,' ').trim();
+const wordCount = s => (s.trim().match(/\S+/g)||[]).length;
+
+/* =============== nav =============== */
+const TABS = [
+  ['p-select','1 · Từ thật/giả'],
+  ['p-cloze','2 · Điền chữ cái'],
+  ['p-fib','3 · Điền từ'],
+  ['p-listen','4 · Nghe chép'],
+  ['p-vocab','5 · Từ vựng'],
+  ['p-write','6 · Viết'],
+  ['p-speak','7 · Nói'],
+];
+const nav = $('nav');
+TABS.forEach(([id,label],i)=>{
+  const b=document.createElement('button');
+  b.textContent=label; b.setAttribute('role','tab');
+  b.setAttribute('aria-selected', i===0?'true':'false');
+  b.onclick=()=>{
+    TABS.forEach(([pid])=>$(pid).classList.remove('active'));
+    [...nav.children].forEach(c=>c.setAttribute('aria-selected','false'));
+    $(id).classList.add('active'); b.setAttribute('aria-selected','true');
+    stopAllTimers();
+  };
+  nav.appendChild(b);
+});
+$('p-select').classList.add('active');
+
+let TIMERS=[];
+function stopAllTimers(){ TIMERS.forEach(clearInterval); TIMERS=[]; if(window.speechSynthesis) speechSynthesis.cancel(); }
+function every(ms,fn){ const t=setInterval(fn,ms); TIMERS.push(t); return t; }
+
+/* =============== TTS =============== */
+let VOICE=null;
+function pickVoice(){
+  const vs = speechSynthesis.getVoices();
+  VOICE = vs.find(v=>/en-US/i.test(v.lang) && /Google|Samantha|Aria|Jenny/i.test(v.name))
+       || vs.find(v=>/en-US/i.test(v.lang))
+       || vs.find(v=>/^en/i.test(v.lang)) || null;
+}
+if(window.speechSynthesis){ pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+function say(text, rate=0.95){
+  if(!window.speechSynthesis) return;
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  if(VOICE) u.voice=VOICE;
+  u.lang='en-US'; u.rate=rate; u.pitch=1;
+  speechSynthesis.speak(u);
+}
+
+/* =============== 1. READ AND SELECT =============== */
+(()=>{
+  let queue=[], idx=0, ok=0, ng=0, tick=null, left=0, answered=false;
+  const bar=$('sel-bar').firstElementChild;
+  function build(){
+    const reals = shuffle(DATA.real).slice(0,15).map(w=>({w,real:true}));
+    const fakes = shuffle(DATA.fake).slice(0,15).map(w=>({w,real:false}));
+    queue = shuffle(reals.concat(fakes));
+    idx=0; ok=0; ng=0; $('sel-log').innerHTML='';
+  }
+  function refresh(){
+    $('sel-count').textContent = idx+' / '+queue.length;
+    $('sel-ok').textContent='Đúng '+ok; $('sel-ng').textContent='Sai '+ng;
+  }
+  function show(){
+    if(idx>=queue.length){ finish(); return; }
+    answered=false;
+    $('sel-word').textContent = queue[idx].w;
+    $('sel-verdict').textContent=''; $('sel-verdict').className='verdict';
+    $('sel-yes').disabled=false; $('sel-no').disabled=false;
+    left=5000;
+    $('sel-bar').classList.remove('urgent');
+    clearInterval(tick);
+    tick = every(50, ()=>{
+      left-=50; bar.style.width=Math.max(0,left/5000*100)+'%';
+      if(left<=1500) $('sel-bar').classList.add('urgent');
+      if(left<=0){ clearInterval(tick); answer(null); }
+    });
+  }
+  function answer(said){
+    if(answered) return; answered=true; clearInterval(tick);
+    const cur=queue[idx];
+    const right = said===cur.real;
+    const s=document.createElement('span');
+    s.textContent=cur.w; s.className = right?'ok':'ng';
+    $('sel-log').appendChild(s);
+    if(right){ ok++; $('sel-verdict').textContent='Đúng'; $('sel-verdict').className='verdict ok'; }
+    else { ng++;
+      const what = cur.real ? 'đây là từ THẬT' : 'đây là từ GIẢ';
+      $('sel-verdict').textContent = (said===null ? 'Hết giờ — ' : 'Sai — ') + what;
+      $('sel-verdict').className='verdict ng';
+    }
+    idx++; refresh();
+    $('sel-yes').disabled=true; $('sel-no').disabled=true;
+    setTimeout(show, 800);
+  }
+  function finish(){
+    $('sel-word').textContent = ok+' / '+queue.length;
+    $('sel-verdict').textContent = ok>=27?'Rất tốt — giữ nhịp này.': ok>=23?'Ổn. Luyện thêm 1 vòng nữa.':'Cần luyện lại: đọc kỹ danh sách 120 từ ở tab 5.';
+    $('sel-verdict').className='verdict';
+    $('sel-yes').disabled=true; $('sel-no').disabled=true;
+    bar.style.width='0%';
+  }
+  $('sel-start').onclick=()=>{ build(); refresh(); show(); };
+  $('sel-yes').onclick=()=>answer(true);
+  $('sel-no').onclick=()=>answer(false);
+})();
+
+/* =============== cloze renderer =============== */
+function renderCloze(container, text, keepFn){
+  container.innerHTML='';
+  const parts = text.split(/(\[[^\]]+\])/g);
+  const inputs=[];
+  parts.forEach(p=>{
+    if(p.startsWith('[')&&p.endsWith(']')){
+      const word=p.slice(1,-1);
+      const keep=keepFn(word);
+      const stub=document.createElement('span');
+      stub.className='stub'; stub.textContent=word.slice(0,keep);
+      container.appendChild(stub);
+      const inp=document.createElement('input');
+      const miss=word.length-keep;
+      inp.size=Math.max(miss,2); inp.style.width=(miss*11+10)+'px';
+      inp.dataset.answer=word.slice(keep).toLowerCase();
+      inp.dataset.full=word;
+      inp.autocapitalize='off'; inp.autocomplete='off'; inp.spellcheck=false;
+      container.appendChild(inp); inputs.push(inp);
+    } else {
+      container.appendChild(document.createTextNode(p));
+    }
+  });
+  return inputs;
+}
+
+/* =============== 2. READ AND COMPLETE =============== */
+(()=>{
+  let inputs=[], pi=-1, tick=null, left=0;
+  const bar=$('cz-bar').firstElementChild;
+  function load(){
+    pi=(pi+1)%DATA.rc.length;
+    const p=DATA.rc[pi];
+    $('cz-title').textContent=p.title;
+    $('cz-score').classList.add('hidden');
+    inputs = renderCloze($('cz-body'), p.text, w=>Math.ceil(w.length/2));
+    left=180000; bar.style.width='100%'; $('cz-bar').classList.remove('urgent');
+    clearInterval(tick);
+    tick=every(200,()=>{
+      left-=200; bar.style.width=Math.max(0,left/180000*100)+'%';
+      const s=Math.max(0,Math.ceil(left/1000));
+      $('cz-time').textContent=Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+      if(left<=30000) $('cz-bar').classList.add('urgent');
+      if(left<=0){ clearInterval(tick); check(); }
+    });
+  }
+  function check(){
+    clearInterval(tick);
+    let ok=0;
+    inputs.forEach(i=>{
+      const good = i.value.trim().toLowerCase()===i.dataset.answer;
+      i.className = good?'ok':'ng';
+      if(good) ok++; else i.value=i.dataset.answer;
+    });
+    const c=$('cz-score'); c.classList.remove('hidden');
+    const pct=Math.round(ok/inputs.length*100);
+    c.textContent='Đúng '+ok+'/'+inputs.length+' ('+pct+'%)';
+    c.className = pct>=80?'chip good':pct>=60?'chip warn':'chip bad';
+  }
+  $('cz-check').onclick=check;
+  $('cz-next').onclick=load;
+  load();
+})();
+
+/* =============== 3. FILL IN THE BLANKS =============== */
+(()=>{
+  let queue=[], idx=0, ok=0, ng=0, tick=null, left=0, inputs=[], answered=false;
+  const bar=$('fb-bar').firstElementChild;
+  function refresh(){
+    $('fb-count').textContent=idx+' / '+queue.length;
+    $('fb-ok').textContent='Đúng '+ok; $('fb-ng').textContent='Sai '+ng;
+  }
+  function show(){
+    if(idx>=queue.length){
+      $('fb-body').textContent='Xong. Đúng '+ok+'/'+queue.length+'.';
+      $('fb-ans').textContent=''; $('fb-submit').disabled=true; bar.style.width='0%';
+      clearInterval(tick); return;
+    }
+    answered=false; $('fb-ans').textContent='';
+    const [sent,keep]=queue[idx];
+    inputs=renderCloze($('fb-body'), sent, ()=>keep);
+    inputs[0] && inputs[0].focus();
+    $('fb-submit').disabled=false;
+    left=20000; $('fb-bar').classList.remove('urgent');
+    clearInterval(tick);
+    tick=every(100,()=>{
+      left-=100; bar.style.width=Math.max(0,left/20000*100)+'%';
+      if(left<=6000) $('fb-bar').classList.add('urgent');
+      if(left<=0){ clearInterval(tick); submit(); }
+    });
+  }
+  function submit(){
+    if(answered) return; answered=true; clearInterval(tick);
+    let good=true;
+    inputs.forEach(i=>{
+      const g=i.value.trim().toLowerCase()===i.dataset.answer;
+      i.className=g?'ok':'ng'; if(!g){good=false; i.value=i.dataset.answer;}
+    });
+    if(good){ok++; $('fb-ans').textContent='Chính xác.';}
+    else {ng++; $('fb-ans').textContent='Đáp án: '+inputs.map(i=>i.dataset.full).join(', ');}
+    idx++; refresh(); $('fb-submit').disabled=true;
+    setTimeout(show,1400);
+  }
+  $('fb-start').onclick=()=>{ queue=shuffle(DATA.fib); idx=0; ok=0; ng=0; refresh(); show(); };
+  $('fb-submit').onclick=submit;
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Enter' && $('p-fib').classList.contains('active') && !$('fb-submit').disabled){ e.preventDefault(); submit(); }
+  });
+})();
+
+/* =============== 4. LISTEN AND TYPE =============== */
+(()=>{
+  let queue=shuffle(DATA.listen), idx=0, plays=3, scores=[];
+  function load(){
+    if(idx>=queue.length){ queue=shuffle(DATA.listen); idx=0; }
+    plays=3;
+    $('ls-count').textContent='Câu '+(idx+1)+' / '+queue.length;
+    $('ls-plays').textContent='Còn 3 lần nghe';
+    $('ls-input').value=''; $('ls-result').classList.add('hidden');
+  }
+  function play(rate){
+    if(plays<=0){ $('ls-plays').textContent='Hết lượt nghe — hãy chấm bài'; return; }
+    plays--; $('ls-plays').textContent='Còn '+plays+' lần nghe';
+    say(queue[idx], rate);
+  }
+  function check(){
+    const target=queue[idx], typed=$('ls-input').value;
+    const tw=norm(target).split(' '), uw=norm(typed).split(' ').filter(Boolean);
+    let i=0, hit=0, html='';
+    tw.forEach(w=>{
+      if(uw[i] && uw[i]===w){ html+='<b class="ok">'+w+'</b> '; hit++; i++; }
+      else if(uw.includes(w)){ html+='<b class="ok">'+w+'</b> '; hit++; if(uw[i]!==w) i++; }
+      else { html+='<b class="ng">'+w+'</b> '; }
+    });
+    const pct=Math.round(hit/tw.length*100);
+    scores.push(pct);
+    const avg=Math.round(scores.reduce((a,b)=>a+b,0)/scores.length);
+    $('ls-acc').textContent='Độ chính xác '+pct+'% (TB '+avg+'%)';
+    $('ls-acc').className = pct>=90?'chip good':pct>=75?'chip warn':'chip bad';
+    const r=$('ls-result'); r.classList.remove('hidden');
+    r.innerHTML = html + '<div style="margin-top:10px;font-size:14px;color:var(--muted)">Câu gốc: '+target+'</div>';
+  }
+  $('ls-play').onclick=()=>play(0.95);
+  $('ls-slow').onclick=()=>play(0.72);
+  $('ls-check').onclick=check;
+  $('ls-next').onclick=()=>{ idx++; load(); };
+  load();
+})();
+
+/* =============== 5. VOCAB =============== */
+(()=>{
+  let deck=[], i=0, known=0, todo=0, flipped=false;
+  function reset(){ deck=shuffle(DATA.vocab); i=0; known=0; todo=0; render(); }
+  function render(){
+    if(i>=deck.length){
+      $('vc-word').textContent='Xong vòng này';
+      $('vc-pos').classList.add('hidden'); $('vc-vn').classList.add('hidden'); $('vc-ex').classList.add('hidden');
+      $('vc-count').textContent='Đã học hết '+deck.length+' từ';
+      return;
+    }
+    flipped=false;
+    const c=deck[i];
+    $('vc-word').textContent=c[0];
+    $('vc-pos').textContent=c[1]; $('vc-vn').textContent=c[2]; $('vc-ex').textContent='"'+c[3]+'"';
+    ['vc-pos','vc-vn','vc-ex'].forEach(x=>$(x).classList.add('hidden'));
+    $('vc-count').textContent='Thẻ '+(i+1)+' / '+deck.length;
+    $('vc-known').textContent='Thuộc '+known; $('vc-todo').textContent='Chưa thuộc '+todo;
+  }
+  function flip(){ flipped=true; ['vc-pos','vc-vn','vc-ex'].forEach(x=>$(x).classList.remove('hidden')); }
+  $('vc-flip').onclick=flip;
+  $('vc-yes').onclick=()=>{ if(i<deck.length){ known++; i++; render(); } };
+  $('vc-no').onclick=()=>{ if(i<deck.length){ todo++; deck.push(deck[i]); i++; render(); } };
+  $('vc-reset').onclick=reset;
+  $('vc-speak').onclick=()=>{ if(i<deck.length) say(deck[i][0]+'. '+deck[i][3], 0.9); };
+  reset();
+})();
+
+/* =============== 6. WRITING =============== */
+(()=>{
+  let pi=-1, tick=null, left=0;
+  const bar=$('wp-bar').firstElementChild;
+  function load(){
+    pi=(pi+1)%DATA.photos.length;
+    $('wp-scene').innerHTML='<b>Cảnh trong ảnh:</b> '+DATA.photos[pi][0];
+    $('wp-model').textContent=DATA.photos[pi][1];
+    $('wp-model').classList.add('hidden');
+    $('wp-input').value=''; count();
+    $('wp-count').textContent='Ảnh '+(pi+1)+' / '+DATA.photos.length;
+    clearInterval(tick); bar.style.width='100%'; $('wp-time').textContent='60 giây';
+    $('wp-bar').classList.remove('urgent');
+  }
+  function count(){
+    const n=wordCount($('wp-input').value);
+    const c=$('wp-counter'); c.innerHTML='Số từ: <b>'+n+'</b> — mục tiêu 40–50';
+    c.className = (n>=38&&n<=58)?'counter good':'counter';
+  }
+  function start(){
+    left=60000; $('wp-bar').classList.remove('urgent'); $('wp-input').focus();
+    clearInterval(tick);
+    tick=every(100,()=>{
+      left-=100; bar.style.width=Math.max(0,left/60000*100)+'%';
+      $('wp-time').textContent=Math.max(0,Math.ceil(left/1000))+' giây';
+      if(left<=15000) $('wp-bar').classList.add('urgent');
+      if(left<=0){ clearInterval(tick); $('wp-time').textContent='Hết giờ'; $('wp-model').classList.remove('hidden'); }
+    });
+  }
+  $('wp-input').oninput=count;
+  $('wp-start').onclick=start;
+  $('wp-show').onclick=()=>$('wp-model').classList.toggle('hidden');
+  $('wp-next').onclick=load;
+  load();
+
+  // Interactive Writing
+  let qi=-1, t2=null, l2=0, total=0;
+  const bar2=$('iw-bar').firstElementChild;
+  function loadQ(){
+    qi=(qi+1)%DATA.writePrompts.length;
+    $('iw-prompt').textContent=DATA.writePrompts[qi];
+    $('iw-input').value=''; c2();
+    clearInterval(t2); bar2.style.width='100%'; $('iw-time').textContent='—';
+  }
+  function c2(){
+    const n=wordCount($('iw-input').value);
+    $('iw-counter').innerHTML='Số từ: <b>'+n+'</b>';
+    $('iw-counter').className = n>=100?'counter good':'counter';
+  }
+  function run(ms,label){
+    total=ms; l2=ms; $('iw-bar').classList.remove('urgent'); $('iw-input').focus();
+    clearInterval(t2);
+    t2=every(200,()=>{
+      l2-=200; bar2.style.width=Math.max(0,l2/total*100)+'%';
+      const s=Math.max(0,Math.ceil(l2/1000));
+      $('iw-time').textContent=label+' — '+Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+      if(l2<=30000) $('iw-bar').classList.add('urgent');
+      if(l2<=0){ clearInterval(t2); $('iw-time').textContent=label+' — hết giờ'; }
+    });
+  }
+  $('iw-input').oninput=c2;
+  $('iw-p1').onclick=()=>run(300000,'Phase 1');
+  $('iw-p2').onclick=()=>{ $('iw-input').value=''; c2(); run(180000,'Phase 2'); };
+  $('iw-next').onclick=loadQ;
+  loadQ();
+})();
+
+/* =============== 7. SPEAKING =============== */
+(()=>{
+  let mode=1, limit=90, si=-1, tick=null, sec=0, rec=null, chunks=[], qIdx=0;
+  function setMode(m){
+    mode=m; qIdx=0;
+    limit = m===1?90 : m===2?75 : 35;
+    $('sp-mode').textContent = m===1?'Read Then Speak' : m===2?'Speak About the Photo' : 'Interactive Speaking';
+    $('sp-limit').textContent = limit+' giây';
+    $('sp-qlist').classList.toggle('hidden', m!==3);
+    load();
+  }
+  function load(){
+    if(mode===1){ si=(si+1)%DATA.speakPrompts.length; $('sp-prompt').textContent=DATA.speakPrompts[si]; }
+    else if(mode===2){ si=(si+1)%DATA.photos.length; $('sp-prompt').innerHTML='<b>Mô tả bằng lời cảnh này:</b><br>'+DATA.photos[si][0]; }
+    else {
+      si=(si+1)%DATA.isets.length;
+      const set=DATA.isets[si]; qIdx=0;
+      $('sp-qlist').innerHTML=set.map((q,k)=>'<li'+(k===0?' class="now"':'')+'>'+q+'</li>').join('');
+      $('sp-prompt').textContent=set[0];
+    }
+    $('sp-clock').textContent='0:00'; $('sp-clock').className='clock';
+  }
+  function nextQ(){
+    if(mode!==3) { load(); return; }
+    const set=DATA.isets[si];
+    qIdx++;
+    if(qIdx>=set.length){ load(); return; }
+    [...$('sp-qlist').children].forEach((li,k)=>li.className = k===qIdx?'now':'');
+    $('sp-prompt').textContent=set[qIdx];
+    $('sp-clock').textContent='0:00'; $('sp-clock').className='clock';
+  }
+  async function start(){
+    sec=0; $('sp-clock').className='clock run'; $('sp-go').disabled=true; $('sp-stop').disabled=false;
+    clearInterval(tick);
+    tick=every(1000,()=>{
+      sec++;
+      $('sp-clock').textContent=Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0');
+      if(sec>=limit){ $('sp-clock').className='clock over'; }
+      if(sec>=limit+10){ stop(); }
+    });
+    try{
+      const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+      chunks=[]; rec=new MediaRecorder(stream);
+      rec.ondataavailable=e=>chunks.push(e.data);
+      rec.onstop=()=>{
+        const blob=new Blob(chunks,{type:'audio/webm'});
+        $('sp-audio').src=URL.createObjectURL(blob);
+        $('sp-audio').classList.remove('hidden');
+        stream.getTracks().forEach(t=>t.stop());
+      };
+      rec.start();
+    }catch(e){
+      $('sp-audio').classList.add('hidden');
+    }
+  }
+  function stop(){
+    clearInterval(tick); $('sp-go').disabled=false; $('sp-stop').disabled=true;
+    if(rec && rec.state==='recording') rec.stop();
+    rec=null;
+  }
+  $('sp-go').onclick=start;
+  $('sp-stop').onclick=stop;
+  $('sp-next').onclick=()=>{ stop(); nextQ(); };
+  $('sp-m1').onclick=()=>{stop();setMode(1);};
+  $('sp-m2').onclick=()=>{stop();setMode(2);};
+  $('sp-m3').onclick=()=>{stop();setMode(3);};
+  setMode(1);
+})();
+</script>
+</body>
+</html>

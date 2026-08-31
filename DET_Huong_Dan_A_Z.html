@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Duolingo English Test — Hướng dẫn A–Z để đạt 110+</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,600;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16233C; --ink-2:#33415C; --paper:#FDFBF5; --card:#FFFFFF;
+  --amber:#E8930C; --amber-soft:#FDF0D8; --teal:#0F7A63; --teal-soft:#E2F2EE;
+  --coral:#C93F31; --coral-soft:#FBE7E4; --muted:#7A879B; --line:#DCE2EC;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:'Be Vietnam Pro',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  line-height:1.7;-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:820px;margin:0 auto;padding:0 20px 100px}
+
+/* hero */
+.hero{padding:56px 0 30px;border-bottom:3px solid var(--ink)}
+.hero h1{font-size:clamp(30px,6.5vw,52px);font-weight:800;letter-spacing:-.035em;line-height:1.05;margin:0 0 14px}
+.hero .sub{font-size:17px;color:var(--ink-2);max-width:56ch;margin:0}
+.equation{
+  display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+  margin:26px 0 6px;font-weight:800;letter-spacing:-.02em;
+}
+.equation .n{font-size:clamp(44px,9vw,72px);color:var(--amber);line-height:1}
+.equation .eq{font-size:22px;color:var(--muted);font-weight:400}
+.equation .r{font-size:clamp(20px,4vw,28px)}
+.hero small{color:var(--muted);font-size:13.5px}
+
+/* toc */
+.toc{margin:34px 0 10px;padding:20px 22px;background:var(--card);border:1.5px solid var(--line);border-radius:14px}
+.toc h2{font-size:14px;margin:0 0 10px;font-weight:800;letter-spacing:-.01em}
+.toc ol{margin:0;padding-left:20px;columns:2;column-gap:28px;font-size:14.5px}
+.toc li{margin-bottom:5px;break-inside:avoid}
+.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--line)}
+.toc a:hover{color:var(--amber);border-color:var(--amber)}
+
+section{padding-top:46px}
+h2.sec{
+  font-size:clamp(23px,4.6vw,32px);font-weight:800;letter-spacing:-.03em;
+  margin:0 0 6px;line-height:1.2;
+}
+h2.sec .num{color:var(--amber);margin-right:10px}
+.lead{color:var(--ink-2);margin:0 0 20px;font-size:16px;max-width:62ch}
+h3{font-size:19px;font-weight:800;letter-spacing:-.02em;margin:30px 0 8px}
+h4{font-size:16px;font-weight:700;margin:20px 0 6px}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin-bottom:6px}
+
+table{width:100%;border-collapse:collapse;font-size:14.5px;margin:14px 0 18px;background:var(--card)}
+th{background:var(--ink);color:#fff;text-align:left;padding:10px 12px;font-weight:600;font-size:13.5px}
+td{border:1px solid var(--line);padding:10px 12px;vertical-align:top}
+tr:nth-child(even) td{background:#FAFBFD}
+
+.box{border-radius:12px;padding:16px 18px;margin:16px 0;font-size:15.5px}
+.box p:last-child{margin-bottom:0}
+.box.key{background:var(--amber-soft);border-left:4px solid var(--amber)}
+.box.good{background:var(--teal-soft);border-left:4px solid var(--teal)}
+.box.bad{background:var(--coral-soft);border-left:4px solid var(--coral)}
+.box.plain{background:#F2F5F9;border-left:4px solid var(--ink-2)}
+.box .label{font-weight:800;font-size:13px;margin-bottom:6px;display:block}
+.box.key .label{color:#8A5A05}
+.box.good .label{color:var(--teal)}
+.box.bad .label{color:var(--coral)}
+
+.sample{
+  background:var(--card);border:1.5px solid var(--line);border-radius:12px;
+  padding:16px 18px;margin:14px 0;font-size:15.5px;line-height:1.8;
+}
+.sample .en{font-style:normal}
+.sample .fill{background:var(--amber-soft);padding:0 4px;border-radius:3px;font-weight:600}
+
+.qt{border:1.5px solid var(--line);border-radius:14px;background:var(--card);padding:20px 22px;margin:16px 0}
+.qt .head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px}
+.qt .head h3{margin:0;font-size:19px}
+.qt .meta{font-size:12.5px;color:var(--muted)}
+.qt .meta b{color:var(--ink-2)}
+.badge{
+  display:inline-block;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:99px;
+  background:var(--amber-soft);color:#8A5A05;
+}
+.badge.hi{background:var(--coral-soft);color:var(--coral)}
+.badge.lo{background:#EEF1F6;color:var(--muted)}
+
+.day{display:grid;grid-template-columns:52px 1fr;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.day .d{font-size:26px;font-weight:800;letter-spacing:-.04em;color:var(--amber);line-height:1.1}
+.day h4{margin:0 0 4px;font-size:16px}
+.day p{margin:0;font-size:14.5px;color:var(--ink-2)}
+
+.check{list-style:none;padding-left:0}
+.check li{padding-left:28px;position:relative;margin-bottom:8px}
+.check li:before{
+  content:"";position:absolute;left:0;top:7px;width:15px;height:15px;
+  border:2px solid var(--ink-2);border-radius:4px;
+}
+
+footer{margin-top:60px;padding-top:24px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+
+@media(max-width:640px){
+  .toc ol{columns:1}
+  .wrap{padding:0 15px 70px}
+  table{font-size:13.5px}
+  th,td{padding:8px}
+}
+@media print{body{background:#fff}.toc{display:none}section{page-break-inside:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <h1>Duolingo English Test<br>Hướng dẫn A–Z để đạt 110+</h1>
+  <p class="sub">Tài liệu này viết cho người đã có nền B1–B2 và còn dưới 2 tuần. Mục tiêu không phải là giỏi tiếng Anh hơn, mà là <b>không mất điểm ở những chỗ đáng lẽ không mất</b>.</p>
+  <div class="equation">
+    <span class="n">110</span>
+    <span class="eq">tương đương</span>
+    <span class="r">IELTS 6.0 · CEFR B2 · TOEFL ≈ 79–85</span>
+  </div>
+  <small>Theo bảng quy đổi chính thức của Duolingo. Format mô tả trong tài liệu là bản cập nhật tháng 7/2025, hiện hành năm 2026.</small>
+</div>
+
+<nav class="toc">
+  <h2>Nội dung</h2>
+  <ol>
+    <li><a href="#s1">Bài thi trông như thế nào</a></li>
+    <li><a href="#s2">110 điểm thật ra cần gì</a></li>
+    <li><a href="#s3">6 nguyên tắc quyết định điểm</a></li>
+    <li><a href="#s4">13 dạng câu, từng dạng một</a></li>
+    <li><a href="#s5">Template Viết — học thuộc</a></li>
+    <li><a href="#s6">Template Nói — học thuộc</a></li>
+    <li><a href="#s7">Ngân hàng cụm từ</a></li>
+    <li><a href="#s8">Kế hoạch 12 ngày</a></li>
+    <li><a href="#s9">Checklist ngày thi</a></li>
+    <li><a href="#s10">Những lỗi bị huỷ bài</a></li>
+    <li><a href="#s11">Nguồn luyện miễn phí</a></li>
+  </ol>
+</nav>
+
+<!-- ==================== 1 ==================== -->
+<section id="s1">
+  <h2 class="sec"><span class="num">1</span>Bài thi trông như thế nào</h2>
+  <p class="lead">Khoảng 60 phút, làm tại nhà bằng máy tính, có webcam và bắt buộc thêm điện thoại làm camera phụ.</p>
+
+  <table>
+    <tr><th style="width:26%">Phần</th><th style="width:16%">Thời lượng</th><th>Nội dung</th></tr>
+    <tr><td><b>1. Cài đặt</b></td><td>~5 phút</td><td>Xác minh giấy tờ, kiểm tra hệ thống, quét phòng, đặt camera phụ. Chưa tính điểm.</td></tr>
+    <tr><td><b>2. Phần thích ứng</b></td><td>~45 phút</td><td>13 dạng câu trộn lẫn, độ khó tự điều chỉnh theo câu trả lời. <b>Toàn bộ điểm nằm ở đây.</b></td></tr>
+    <tr><td><b>3. Phần mẫu</b></td><td>~10 phút</td><td>1 bài viết (5 phút) + 1 bài nói. Không tính vào điểm số nhưng <b>gửi thẳng cho trường đại học</b>.</td></tr>
+  </table>
+
+  <h3>Điểm được báo cáo thế nào</h3>
+  <p>Thang 10–160, bước nhảy 5 điểm. Ngoài điểm tổng còn 8 điểm thành phần:</p>
+  <table>
+    <tr><th>Nhóm</th><th>Gồm</th><th>Ý nghĩa</th></tr>
+    <tr><td>Tích hợp</td><td>Literacy · Comprehension · Production · Conversation</td><td>Kết hợp 2 kỹ năng. Literacy = Đọc + Viết, Comprehension = Đọc + Nghe, Production = Viết + Nói, Conversation = Nghe + Nói.</td></tr>
+    <tr><td>Đơn lẻ</td><td>Reading · Writing · Listening · Speaking</td><td>Trung bình 4 điểm này chính là điểm tổng.</td></tr>
+  </table>
+  <div class="box key">
+    <span class="label">Vì sao chi tiết này quan trọng</span>
+    <p>Điểm tổng là trung bình của 4 kỹ năng. Nghĩa là một kỹ năng quá kém sẽ kéo tụt tất cả. Với người mất gốc đều cả 4 phần, cách nhanh nhất lên 110 là <b>nâng phần yếu nhất lên, không phải nâng phần mạnh nhất lên nữa</b>.</p>
+  </div>
+</section>
+
+<!-- ==================== 2 ==================== -->
+<section id="s2">
+  <h2 class="sec"><span class="num">2</span>110 điểm thật ra cần gì</h2>
+  <p class="lead">Đây không phải mức điểm của người nói tiếng Anh giỏi. Đây là mức của người viết đúng ngữ pháp cơ bản, nói được 60 giây liền mạch, và nghe hiểu hội thoại đời thường.</p>
+
+  <table>
+    <tr><th>Kỹ năng</th><th>Ở mức 110 cần làm được</th><th>KHÔNG cần</th></tr>
+    <tr><td>Đọc</td><td>Nhận ra ~80% từ vựng học thuật cơ bản, đoán được từ thiếu nhờ ngữ cảnh</td><td>Từ vựng C1, đọc bài khoa học chuyên ngành</td></tr>
+    <tr><td>Viết</td><td>Viết 120 từ có mở–thân–kết, câu ghép đúng, đúng chính tả</td><td>Từ hoa mỹ, cấu trúc đảo ngữ, thành ngữ</td></tr>
+    <tr><td>Nghe</td><td>Chép lại đúng câu 12–15 từ tốc độ bình thường</td><td>Nghe hiểu giọng địa phương khó, tốc độ nhanh</td></tr>
+    <tr><td>Nói</td><td>Nói liên tục 60 giây, có cấu trúc, ít ngập ngừng</td><td>Phát âm như người bản xứ, ngữ điệu hoàn hảo</td></tr>
+  </table>
+
+  <div class="box good">
+    <span class="label">Kết luận thực tế</span>
+    <p>Trong 12 ngày, <b>đừng cố học thêm từ vựng nâng cao</b>. Hãy làm 3 việc: học thuộc template, luyện đúng dạng câu, và sửa 3 lỗi ngữ pháp hay mắc nhất (mạo từ, số nhiều, thì của động từ). Ba việc này đủ để đi từ ~95 lên ~115.</p>
+  </div>
+</section>
+
+<!-- ==================== 3 ==================== -->
+<section id="s3">
+  <h2 class="sec"><span class="num">3</span>6 nguyên tắc quyết định điểm</h2>
+
+  <h3>1. Bài thi thích ứng — 15 phút đầu quan trọng nhất</h3>
+  <p>Trả lời đúng thì câu tiếp theo khó hơn, và câu khó mới cho điểm cao. Trả lời sai thì câu sau dễ đi, và trần điểm hạ xuống theo. Vì vậy ở giai đoạn đầu phải cẩn thận tuyệt đối, đặc biệt với <i>Read and Select</i> và <i>Listen and Type</i>.</p>
+
+  <h3>2. Bỏ trống = trả lời sai</h3>
+  <p>Không có điểm trừ cho câu sai. Bỏ trống một ô trong <i>Read and Complete</i> bị tính y hệt điền sai. Nên luôn điền, luôn đoán, luôn bấm.</p>
+
+  <h3>3. Literacy là điểm dễ ăn nhất</h3>
+  <p>Có 7 trong 13 dạng câu ảnh hưởng đến Literacy. Mà Literacy chủ yếu bị trừ vì <b>chính tả và từ chức năng</b> — thứ sửa được trong vài ngày, không cần trình độ cao hơn.</p>
+
+  <h3>4. Ba lỗi ăn mòn điểm nhiều nhất</h3>
+  <table>
+    <tr><th>Lỗi</th><th>Sai</th><th>Đúng</th></tr>
+    <tr><td>Thiếu mạo từ</td><td>She is <s>student</s> at university</td><td>She is <b>a</b> student at <b>the</b> university</td></tr>
+    <tr><td>Thiếu -s số nhiều / chia động từ</td><td>He <s>work</s> in two <s>company</s></td><td>He work<b>s</b> in two compan<b>ies</b></td></tr>
+    <tr><td>Chính tả Anh-Anh trong Read and Complete</td><td>colour, organise, centre</td><td>color, organize, center</td></tr>
+  </table>
+  <p>Riêng dạng <i>Read and Complete</i> chỉ chấp nhận chính tả Mỹ. Các dạng khác chấp nhận cả hai.</p>
+
+  <h3>5. Template quan trọng hơn ý tưởng</h3>
+  <p>Bài thi không chấm ý tưởng hay dở. Nó chấm cấu trúc, độ dài, độ đa dạng ngữ pháp. Một bài viết nhạt nhẽo nhưng đủ mở–thân–kết, có ví dụ, có từ nối, sẽ ăn điểm cao hơn một bài sâu sắc nhưng lộn xộn.</p>
+
+  <h3>6. Phần mẫu tuy không tính điểm nhưng trường vẫn đọc</h3>
+  <p>Writing Sample và Speaking Sample được gửi nguyên văn cho trường đại học. Điểm 120 kèm một đoạn viết đầy lỗi chính tả sẽ khiến hồ sơ bị nghi ngờ. Cứ coi như nó có tính điểm.</p>
+</section>
+
+<!-- ==================== 4 ==================== -->
+<section id="s4">
+  <h2 class="sec"><span class="num">4</span>13 dạng câu, từng dạng một</h2>
+  <p class="lead">Sắp xếp theo mức độ ảnh hưởng đến điểm. Đọc kỹ 5 dạng đầu tiên — chúng chiếm phần lớn thời lượng bài thi.</p>
+
+  <!-- 1 -->
+  <div class="qt">
+    <div class="head"><h3>Read and Select</h3><span class="badge hi">15–18 lần</span></div>
+    <div class="meta"><b>5 giây/từ</b> · Literacy, Reading</div>
+    <p>Màn hình hiện một từ. Bấm Yes nếu là từ tiếng Anh có thật, No nếu là từ bịa. Không gõ gì cả.</p>
+    <p><b>Chiến thuật:</b> tin phản xạ đầu tiên. Từ bịa thường có tổ hợp chữ cái nghe sai sai — <i>flurment, cradive, quinstle, blantice</i>. Nếu phân vân quá 3 giây thì nhiều khả năng là từ bịa, vì từ thật ở trình độ B2 em sẽ có cảm giác quen thuộc ngay.</p>
+    <p><b>Vì sao dạng này đáng đầu tư nhất:</b> nó xuất hiện nhiều nhất, và nó là dạng dễ nhất để cải thiện — chỉ cần đọc lướt danh sách 124 từ trong file Excel mỗi ngày.</p>
+  </div>
+
+  <!-- 2 -->
+  <div class="qt">
+    <div class="head"><h3>Read and Complete</h3><span class="badge">3–6 lần</span></div>
+    <div class="meta"><b>3 phút/đoạn</b> · Literacy, Comprehension, Reading</div>
+    <p>Một đoạn 100–150 từ, nhiều từ bị cắt mất nửa sau, chỉ còn vài chữ cái đầu. Câu đầu và câu cuối luôn để nguyên.</p>
+    <div class="box key">
+      <span class="label">Quy trình 3 phút</span>
+      <p><b>0:00–0:40</b> Đọc hết cả đoạn, không điền gì. Hiểu chủ đề trước.<br>
+      <b>0:40–2:20</b> Điền từ dễ trước — từ nối, giới từ, từ có gốc lộ rõ.<br>
+      <b>2:20–3:00</b> Quay lại các ô còn trống, đoán bừa cũng phải điền. Kiểm tra chính tả Mỹ.</p>
+    </div>
+    <p><b>Mẹo nhận dạng:</b> phần chữ cái còn lại cho biết từ loại. <i>diffic___</i> → difficult. <i>consid___</i> → consider/considerable — xét ngữ pháp câu để chọn. <i>impor___</i> → important/importance — xem trước nó có mạo từ không.</p>
+  </div>
+
+  <!-- 3 -->
+  <div class="qt">
+    <div class="head"><h3>Listen and Type</h3><span class="badge hi">6–9 lần</span></div>
+    <div class="meta"><b>Tối đa 3 lần nghe lại</b> · Literacy, Comprehension, Listening</div>
+    <p>Nghe một câu 5–15 giây rồi gõ lại chính xác từng chữ.</p>
+    <div class="box key">
+      <span class="label">Chiến thuật 3 lần nghe</span>
+      <p><b>Lần 1</b> — không gõ gì, chỉ nắm nghĩa cả câu.<br>
+      <b>Lần 2</b> — gõ hết những gì nhớ, chừa chỗ trống chỗ chưa rõ.<br>
+      <b>Lần 3</b> — <u>chỉ soát từ chức năng</u>: a / an / the / in / on / at / of / to, và đuôi -s.</p>
+    </div>
+    <p>Lỗi chính tả nhẹ không đổi nghĩa thì không bị trừ. Nhưng thiếu một chữ <i>the</i> thì bị trừ. Đó là lý do lần nghe thứ ba phải dành riêng cho việc soát những từ nhỏ này.</p>
+    <p><b>Nếu không nghe ra một từ:</b> viết một từ nghe gần giống, đúng số âm tiết, hợp ngữ pháp. Đừng bỏ trống.</p>
+  </div>
+
+  <!-- 4 -->
+  <div class="qt">
+    <div class="head"><h3>Write About the Photo</h3><span class="badge hi">3 lần liên tiếp</span></div>
+    <div class="meta"><b>60 giây/ảnh, không có thời gian chuẩn bị</b> · Writing, Literacy, Production</div>
+    <p>Xuất hiện 3 lần liền nhau và ảnh hưởng cùng lúc 3 điểm thành phần. Đây là dạng có tỷ lệ điểm/công sức cao nhất toàn bài.</p>
+    <div class="box good">
+      <span class="label">Công thức 3 câu — học thuộc</span>
+      <p><b>Câu 1 — tiền cảnh:</b> <i>In this photo, a [người] is [đang làm gì] in what appears to be a [nơi chốn].</i><br>
+      <b>Câu 2 — hậu cảnh:</b> <i>In the background, [thứ gì] can be seen, and the [chi tiết] looks [tính từ].</i><br>
+      <b>Câu 3 — suy đoán:</b> <i>He/She seems to be [mục đích], and the overall atmosphere feels [tính từ].</i></p>
+    </div>
+    <p>40–50 từ là đủ. Chỉ mô tả cái nhìn thấy, không nêu quan điểm cá nhân. Các cụm rào đón <i>appears to be, seems to, looks like, judging by</i> được tính là cấu trúc phức tạp và giúp tăng điểm.</p>
+    <p><b>10 giây cuối:</b> đọc lại tìm mạo từ thiếu và đuôi -s. Đừng viết thêm câu mới.</p>
+  </div>
+
+  <!-- 5 -->
+  <div class="qt">
+    <div class="head"><h3>Interactive Listening</h3><span class="badge hi">2 kịch bản</span></div>
+    <div class="meta"><b>~6–7 phút/kịch bản</b> · Comprehension, Conversation, Listening</div>
+    <p>Hai hội thoại: một thân mật (với bạn cùng lớp), một trang trọng (với giáo sư). Em đóng vai sinh viên. Mỗi kịch bản có 3 phần nhỏ:</p>
+    <ul>
+      <li><b>Listen and Complete</b> — nghe rồi điền 3–4 chỗ trống.</li>
+      <li><b>Listen and Respond</b> — chọn câu đáp phù hợp nhất, 5–6 câu.</li>
+      <li><b>Summarize the Conversation</b> — viết tóm tắt, 75 giây.</li>
+    </ul>
+    <div class="box bad">
+      <span class="label">Bẫy lớn nhất</span>
+      <p>Ở <i>Listen and Respond</i>, đáp án đúng không phải câu nhiệt tình nhất hay dễ chịu nhất, mà là câu <b>phù hợp hoàn cảnh nhất</b>. Câu quá suồng sã khi nói với giáo sư luôn sai. Câu mâu thuẫn với điều vừa nghe cũng luôn sai.</p>
+    </div>
+    <p><b>Tóm tắt:</b> viết văn xuôi, không gạch đầu dòng. 3–4 câu. Nêu ai nói chuyện với ai về việc gì, vấn đề là gì, và cuối cùng quyết định thế nào.</p>
+  </div>
+
+  <!-- 6 -->
+  <div class="qt">
+    <div class="head"><h3>Interactive Writing</h3><span class="badge">1 lần</span></div>
+    <div class="meta"><b>Phase 1: 5 phút (~120 từ) · Phase 2: 3 phút (~80 từ)</b> · Literacy, Production, Writing</div>
+    <p>Viết một bài theo đề, gửi đi (không sửa lại được), rồi trả lời một câu hỏi nối tiếp. Ở Phase 2, bài Phase 1 vẫn hiện trên màn hình.</p>
+    <div class="box bad">
+      <span class="label">Lỗi khiến Phase 2 mất trắng điểm cộng</span>
+      <p>Diễn đạt lại ý của Phase 1 bằng từ khác. Hệ thống chấm xem Phase 2 có <b>mở rộng lập luận</b> hay không. Nói lại điều cũ = không có tín hiệu gì để chấm.</p>
+    </div>
+    <p><b>Phase 2 phải chứa ít nhất một trong ba thứ:</b> một phản biện (<i>Some people might argue that…</i>), một hệ quả thực tế (<i>In practice, this would mean…</i>), hoặc một ví dụ hoàn toàn mới.</p>
+  </div>
+
+  <!-- 7 -->
+  <div class="qt">
+    <div class="head"><h3>Interactive Speaking</h3><span class="badge hi">1 bộ 6 câu</span></div>
+    <div class="meta"><b>35 giây/câu · audio chỉ phát 1 LẦN</b> · Conversation, Production, Speaking</div>
+    <p>Một nhân vật hoạt hình hỏi 6 câu nối tiếp nhau, câu sau dựa trên câu trước. Nghe xong mới tự bấm nút Record. Không tua lại, không quay ngược.</p>
+    <p><b>Cấu trúc 35 giây:</b> trả lời thẳng (1 câu) → lý do (1 câu) → ví dụ hoặc chi tiết (1 câu). Ba câu là vừa đủ.</p>
+    <p><b>Nối mạch hội thoại:</b> dùng <i>As I mentioned, … / Like I said earlier, … / Going back to what I said about …</i> — bài thi chấm cả khả năng duy trì mạch nói.</p>
+    <div class="box key">
+      <span class="label">Im lặng tốt hơn “um”</span>
+      <p>Một giây im lặng rồi nói một câu chắc chắn được chấm cao hơn là ậm ừ liên tục. Tập bỏ hẳn “um, uh, like, you know”.</p>
+    </div>
+  </div>
+
+  <!-- 8 -->
+  <div class="qt">
+    <div class="head"><h3>Fill in the Blanks</h3><span class="badge">6–9 lần</span></div>
+    <div class="meta"><b>20 giây/câu</b> · Literacy, Comprehension, Reading</div>
+    <p>Đoạn ngắn 3–5 câu, một vài từ chỉ còn chữ cái đầu. Chấp nhận cả chính tả Anh và Mỹ.</p>
+    <p><b>Cách làm:</b> đọc hết câu trước khi gõ. Ngữ pháp xung quanh cho biết cần danh từ, động từ, tính từ hay từ nối — điều này loại bỏ phần lớn việc đoán mò ngay cả khi không biết từ đó.</p>
+  </div>
+
+  <!-- 9 -->
+  <div class="qt">
+    <div class="head"><h3>Interactive Reading</h3><span class="badge">1 bộ</span></div>
+    <div class="meta">Nhiều câu hỏi con · Literacy, Comprehension, Reading</div>
+    <p>Một bài đọc học thuật dài kèm 5 loại câu hỏi: <b>Complete the Sentence</b> (chọn từ), <b>Complete the Passage</b> (chọn từ trong menu thả xuống), <b>Highlight the Answer</b> (bôi đen đoạn trả lời), <b>Identify the Idea</b> (tự viết một câu tóm ý), <b>Title the Passage</b> (chọn tiêu đề).</p>
+    <p><b>Identify the Idea</b> là câu hỏi duy nhất trong nhóm này bắt viết. Một câu chính xác gọn gàng ăn điểm cao hơn một câu dài lan man. Mẫu: <i>The paragraph mainly explains that …</i></p>
+  </div>
+
+  <!-- 10 -->
+  <div class="qt">
+    <div class="head"><h3>Speak About the Photo</h3><span class="badge lo">1 lần</span></div>
+    <div class="meta"><b>Tối đa 3 phút, nộp khi thấy đủ</b> · Production, Conversation, Speaking</div>
+    <p>Giống Write About the Photo nhưng nói. Dùng đúng cấu trúc tiền cảnh → hậu cảnh → suy đoán, nhưng nói thành một mạch liên tục, không liệt kê rời rạc.</p>
+    <p>60–90 giây là đủ. Không cần nói hết 3 phút. Nói nhanh để lấp thời gian sẽ tạo ra giọng đứt quãng và bị đánh giá là kém trôi chảy.</p>
+  </div>
+
+  <!-- 11 -->
+  <div class="qt">
+    <div class="head"><h3>Read, Then Speak</h3><span class="badge lo">1 lần</span></div>
+    <div class="meta"><b>Tối đa 3 phút</b> · Comprehension, Production, Speaking</div>
+    <p>Đọc một đề rồi nói câu trả lời. <b>Tuyệt đối không đọc to lại đề.</b> Dùng thời gian đọc để lên dàn ý rồi nói từ trí nhớ. Người vừa nói vừa liếc lại đề sẽ tự làm đứt mạch nói của mình.</p>
+  </div>
+
+  <!-- 12 -->
+  <div class="qt">
+    <div class="head"><h3>Writing Sample</h3><span class="badge lo">Phần 3</span></div>
+    <div class="meta"><b>5 phút + 30 giây chuẩn bị · gửi cho trường</b></div>
+    <p>Dùng 30 giây chuẩn bị để chốt lập trường và tìm 2 lý do. Viết 100–130 từ. Câu đầu tiên phải trả lời thẳng vào đề.</p>
+  </div>
+
+  <!-- 13 -->
+  <div class="qt">
+    <div class="head"><h3>Speaking Sample</h3><span class="badge lo">Phần 3</span></div>
+    <div class="meta"><b>60–90 giây · gửi cho trường</b></div>
+    <p>Cán bộ tuyển sinh sẽ xem video này. Ăn mặc gọn gàng, phông nền trung tính, đủ sáng, nói với tốc độ vừa phải. 70 giây mạch lạc ấn tượng hơn 3 phút lan man.</p>
+  </div>
+</section>
+
+<!-- ==================== 5 ==================== -->
+<section id="s5">
+  <h2 class="sec"><span class="num">5</span>Template Viết — học thuộc</h2>
+  <p class="lead">Học thuộc đến mức viết ra được mà không cần nghĩ. Trong 60 giây, thời gian nghĩ cấu trúc là thời gian mất trắng.</p>
+
+  <h3>A. Write About the Photo (60 giây, 40–50 từ)</h3>
+  <div class="sample">
+    <span class="en">In this photo, a <span class="fill">young woman</span> is <span class="fill">writing in a notebook</span> in what appears to be <span class="fill">a university courtyard</span>. In the background, <span class="fill">several students</span> can be seen, and <span class="fill">the light</span> looks <span class="fill">bright and warm</span>. She seems to be <span class="fill">taking a break between classes</span>, and the overall atmosphere feels <span class="fill">calm and relaxed</span>.</span>
+  </div>
+  <p style="font-size:14.5px;color:var(--muted)">48 từ. Ba câu, ba cấu trúc khác nhau, hai cụm rào đón. Chỉ cần thay phần tô vàng.</p>
+
+  <h3>B. Interactive Writing — Phase 1 (5 phút, ~120 từ)</h3>
+  <div class="sample">
+    <span class="en">In my view, <span class="fill">students benefit more from studying in a group</span>.<br><br>
+    The first reason is that <span class="fill">discussion forces you to explain ideas in your own words</span>. For example, <span class="fill">when I revised biology with two classmates last term, I realised I had misunderstood a concept only because someone asked me to explain it</span>.<br><br>
+    In addition, <span class="fill">a group creates a schedule that is difficult to ignore</span>. This is particularly true when <span class="fill">the subject is boring and you would otherwise postpone it</span>.<br><br>
+    For these reasons, I would argue that <span class="fill">group study is more effective for most students, even though quiet individual revision still has its place</span>.</span>
+  </div>
+
+  <h3>C. Interactive Writing — Phase 2 (3 phút, ~80 từ)</h3>
+  <div class="box bad">
+    <span class="label">Nhắc lại</span>
+    <p>Phase 2 <b>bắt buộc</b> phải có ý mới. Nếu chỉ nói lại Phase 1 thì coi như không viết.</p>
+  </div>
+  <div class="sample">
+    <span class="en">While my earlier point still stands, it is also worth considering <span class="fill">what happens when the group is badly matched</span>.<br><br>
+    Some people might object that <span class="fill">group work simply turns into conversation about other things</span>. However, <span class="fill">this is a problem of rules rather than of the method itself</span>.<br><br>
+    In practice, this would mean <span class="fill">agreeing on a fixed agenda before each session and keeping the group to three or four people</span>.</span>
+  </div>
+
+  <h3>D. Summarize the Conversation (75 giây, văn xuôi)</h3>
+  <div class="sample">
+    <span class="en">In this conversation, <span class="fill">a student</span> and <span class="fill">her professor</span> discussed <span class="fill">a deadline for a research assignment</span>. <span class="fill">The student</span> explained that <span class="fill">she had underestimated how long the data collection would take</span>, while <span class="fill">the professor</span> suggested <span class="fill">narrowing the topic instead of extending the deadline</span>. In the end, they agreed to <span class="fill">reduce the scope of the study and keep the original submission date</span>.</span>
+  </div>
+
+  <h3>E. Writing Sample (5 phút, 100–130 từ)</h3>
+  <div class="sample">
+    <span class="en"><span class="fill">Whether exams are the best way to measure learning</span> is a question that many students face today, and personally I believe <span class="fill">they measure only a narrow part of it</span>.<br><br>
+    First, <span class="fill">exams reward memory under pressure rather than genuine understanding</span>. For instance, <span class="fill">a student can memorise formulas the night before and forget them a week later</span>.<br><br>
+    Second, <span class="fill">many important skills cannot be tested in two hours</span>, which means that <span class="fill">teamwork, research and creativity are simply left out of the score</span>.<br><br>
+    Looking ahead, I think <span class="fill">schools will keep exams but combine them with project work, so that the final grade reflects more than one kind of ability</span>.</span>
+  </div>
+</section>
+
+<!-- ==================== 6 ==================== -->
+<section id="s6">
+  <h2 class="sec"><span class="num">6</span>Template Nói — học thuộc</h2>
+
+  <h3>A. Read Then Speak / Speaking Sample (60–90 giây)</h3>
+  <div class="sample">
+    <span class="en">Personally, I believe that <span class="fill">…</span>.<br>
+    The main reason is that <span class="fill">…</span>. For example, <span class="fill">…</span>.<br>
+    Another point worth mentioning is <span class="fill">…</span>. In my own experience, <span class="fill">…</span>.<br>
+    So overall, I would say <span class="fill">…</span>.</span>
+  </div>
+  <p>Bốn câu này nói với tốc độ bình thường mất khoảng 55–70 giây. Vừa đủ.</p>
+
+  <h3>B. Speak About the Photo (60–90 giây)</h3>
+  <div class="sample">
+    <span class="en">This picture shows <span class="fill">…</span>.<br>
+    In the foreground, <span class="fill">…</span>.<br>
+    Behind them, I can see <span class="fill">…</span>.<br>
+    Judging by <span class="fill">…</span>, I would say this was taken <span class="fill">…</span>.<br>
+    Overall, the scene gives me the impression of <span class="fill">…</span>.</span>
+  </div>
+
+  <h3>C. Interactive Speaking (35 giây × 6)</h3>
+  <div class="sample">
+    <span class="en">Câu 1–2 (trả lời trực tiếp):<br>
+    <span class="fill">Yes, I do</span>. The main reason is that <span class="fill">…</span>. For instance, <span class="fill">…</span>.<br><br>
+    Câu 3–6 (nối mạch):<br>
+    As I mentioned earlier, <span class="fill">…</span>, so <span class="fill">…</span>. A good example of that is <span class="fill">…</span>.</span>
+  </div>
+
+  <div class="box key">
+    <span class="label">Ba việc phải làm khi luyện nói</span>
+    <p>1. <b>Luôn ghi âm.</b> Không nghe lại thì không sửa được gì.<br>
+    2. <b>Đếm số lần “um”.</b> Mục tiêu: dưới 3 lần trong 60 giây.<br>
+    3. <b>Bấm giờ.</b> Cảm giác về 35 giây và 90 giây phải thành phản xạ trước ngày thi.</p>
+  </div>
+</section>
+
+<!-- ==================== 7 ==================== -->
+<section id="s7">
+  <h2 class="sec"><span class="num">7</span>Ngân hàng cụm từ</h2>
+  <p class="lead">Dùng đúng những cụm này là đủ. Không cần cụm nào hoa mỹ hơn.</p>
+
+  <h3>Từ nối</h3>
+  <table>
+    <tr><th>Chức năng</th><th>Cụm dùng được</th></tr>
+    <tr><td>Thêm ý</td><td>In addition · Furthermore · What is more · Another point worth mentioning is</td></tr>
+    <tr><td>Đối lập</td><td>However · On the other hand · That said · While it is true that …, </td></tr>
+    <tr><td>Nguyên nhân – kết quả</td><td>As a result · Consequently · This means that · which is why</td></tr>
+    <tr><td>Ví dụ</td><td>For instance · A good example of this is · Take … as an example</td></tr>
+    <tr><td>Nhấn mạnh</td><td>In particular · Above all · This is especially true when</td></tr>
+    <tr><td>Kết luận</td><td>Overall · For these reasons · Looking ahead · On balance</td></tr>
+  </table>
+
+  <h3>Cụm rào đón (ăn điểm cấu trúc, dùng nhiều ở phần tả ảnh)</h3>
+  <p>appears to be · seems to be · looks like · judging by · it is likely that · I would guess that · presumably · what appears to be</p>
+
+  <h3>Từ vựng tả ảnh</h3>
+  <table>
+    <tr><th>Nhóm</th><th>Từ</th></tr>
+    <tr><td>Vị trí</td><td>in the foreground · in the background · on the left/right · in the centre · behind · next to · in the distance</td></tr>
+    <tr><td>Người</td><td>a middle-aged man · an elderly woman · a group of teenagers · a vendor · a commuter · a passer-by</td></tr>
+    <tr><td>Hành động</td><td>is holding · is leaning against · is queuing · is browsing · is chatting with · is heading towards</td></tr>
+    <tr><td>Không khí</td><td>lively · peaceful · crowded · deserted · cosy · hectic · overcast · bright and airy</td></tr>
+    <tr><td>Nơi chốn</td><td>a train platform · a market stall · a lecture hall · a courtyard · a pavement · a workshop</td></tr>
+  </table>
+
+  <h3>Cụm nêu quan điểm</h3>
+  <p>In my view · Personally, I believe · From my perspective · I would argue that · It seems to me that · I am inclined to think that</p>
+</section>
+
+<!-- ==================== 8 ==================== -->
+<section id="s8">
+  <h2 class="sec"><span class="num">8</span>Kế hoạch 12 ngày</h2>
+  <p class="lead">Khoảng 105 phút mỗi ngày, chia hai buổi. Chi tiết đầy đủ nằm trong file Excel kèm theo.</p>
+
+  <div class="day"><div class="d">1</div><div><h4>Hiểu format + Read and Select</h4><p>Đọc hết tài liệu này. Luyện 3 vòng Read and Select trong app. Học 10 từ đầu.</p></div></div>
+  <div class="day"><div class="d">2</div><div><h4>Read and Complete</h4><p>2 đoạn có bấm giờ 3 phút. Đọc 1 bài BBC Learning English, gạch chân từ nối.</p></div></div>
+  <div class="day"><div class="d">3</div><div><h4>Listen and Type</h4><p>15 câu. Chép lại lần 2 không nhìn. Tập trung vào a/an/the và đuôi -s.</p></div></div>
+  <div class="day"><div class="d">4</div><div><h4>Write About the Photo</h4><p>Học thuộc công thức 3 câu. Viết 5 ảnh, mỗi ảnh 60 giây.</p></div></div>
+  <div class="day"><div class="d">5</div><div><h4>Nói về ảnh + Read Then Speak</h4><p>Ghi âm 5 ảnh và nghe lại. Luyện template POSITION–REASON–EXAMPLE.</p></div></div>
+  <div class="day"><div class="d">6</div><div><h4>Interactive Writing</h4><p>Phase 1 hai đề, đếm từ. Phase 2 bắt buộc thêm ý mới.</p></div></div>
+  <div class="day"><div class="d">7</div><div><h4>Mock test #1</h4><p>Làm bài thi thử miễn phí trên trang chính thức. Ghi điểm, liệt kê 3 dạng yếu nhất.</p></div></div>
+  <div class="day"><div class="d">8</div><div><h4>Interactive Listening</h4><p>Luyện tóm tắt hội thoại. Xem 1 video TED-Ed, viết tóm tắt 60 từ văn xuôi.</p></div></div>
+  <div class="day"><div class="d">9</div><div><h4>Interactive Speaking</h4><p>2 bộ 6 câu, có ghi âm. Đếm số lần ngập ngừng rồi làm lại.</p></div></div>
+  <div class="day"><div class="d">10</div><div><h4>Interactive Reading + tăng tốc</h4><p>25 câu Fill in the Blanks. Ôn lại toàn bộ danh sách từ.</p></div></div>
+  <div class="day"><div class="d">11</div><div><h4>Mock test #2 + phần mẫu</h4><p>So sánh với lần 1. Viết 1 Writing Sample và quay 1 Speaking Sample như thi thật.</p></div></div>
+  <div class="day"><div class="d">12</div><div><h4>Ôn nhẹ + chuẩn bị thiết bị</h4><p>Đọc lại template, ôn 30 từ hay quên. Không học từ mới. Ngủ sớm.</p></div></div>
+
+  <div class="box key" style="margin-top:24px">
+    <span class="label">Nếu chỉ còn 7 ngày</span>
+    <p>Bỏ ngày 2, 8, 10. Giữ nguyên ngày 1, 3, 4, 5, 6, 7, 12. Ưu tiên tuyệt đối: Read and Select, Listen and Type, Write About the Photo — ba dạng này chiếm nhiều thời lượng bài thi nhất.</p>
+  </div>
+</section>
+
+<!-- ==================== 9 ==================== -->
+<section id="s9">
+  <h2 class="sec"><span class="num">9</span>Checklist ngày thi</h2>
+
+  <h3>Chuẩn bị từ hôm trước</h3>
+  <ul class="check">
+    <li>Giấy tờ tuỳ thân có ảnh, còn hạn (hộ chiếu hoặc CCCD)</li>
+    <li>Webcam hoạt động, thấy rõ cả khuôn mặt, đủ sáng từ phía trước</li>
+    <li><b>Điện thoại làm camera phụ</b> — bắt buộc từ tháng 9/2025, phải đặt sao cho quay được toàn bộ màn hình và bàn phím. Không dùng chính máy đang thi.</li>
+    <li>Sạc đầy cả máy tính lẫn điện thoại, hoặc cắm điện sẵn</li>
+    <li>Tai nghe: không bắt buộc, nhưng loa ngoài phải nghe rõ</li>
+    <li>Thử tốc độ mạng, tắt các thiết bị khác đang dùng chung wifi</li>
+  </ul>
+
+  <h3>Ngay trước khi bắt đầu</h3>
+  <ul class="check">
+    <li>Dọn sạch bàn — không giấy, không bút, không sách</li>
+    <li>Đóng Grammarly và toàn bộ ứng dụng khác, tắt thông báo</li>
+    <li>Chỉ một màn hình. Tắt màn hình phụ nếu có</li>
+    <li>Phòng khoá cửa, báo cho cả nhà không vào trong 1 tiếng</li>
+    <li>Không có tiếng nói nào khác trong phòng</li>
+    <li>Đi vệ sinh trước — không được rời chỗ giữa chừng</li>
+    <li>Uống nước trước, không để cốc trên bàn</li>
+  </ul>
+
+  <h3>Trong lúc thi</h3>
+  <ul class="check">
+    <li>Nhìn thẳng vào màn hình, không nhìn ra chỗ khác</li>
+    <li>Không đọc to đề bài (trừ khi được yêu cầu nói)</li>
+    <li>Không dùng copy-paste dưới bất kỳ hình thức nào</li>
+    <li>Không bao giờ bỏ trống một ô nào</li>
+  </ul>
+</section>
+
+<!-- ==================== 10 ==================== -->
+<section id="s10">
+  <h2 class="sec"><span class="num">10</span>Những lỗi bị huỷ bài</h2>
+  <div class="box bad">
+    <p>Bài thi bị huỷ, mất tiền, không có điểm. Đây là những lỗi tuyệt đối tránh:</p>
+    <ul style="margin-bottom:0">
+      <li>Camera phụ đặt sai vị trí hoặc không bật</li>
+      <li>Rời khỏi khung hình webcam</li>
+      <li>Có người khác bước vào phòng</li>
+      <li>Nhìn ra ngoài màn hình nhiều lần</li>
+      <li>Dùng copy-paste</li>
+      <li>Có tiếng nói khác trong phòng</li>
+      <li>Trên bàn có giấy tờ, ghi chú, điện thoại thứ hai</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ==================== 11 ==================== -->
+<section id="s11">
+  <h2 class="sec"><span class="num">11</span>Nguồn luyện miễn phí</h2>
+  <table>
+    <tr><th>Nguồn</th><th>Dùng để làm gì</th></tr>
+    <tr><td><b>englishtest.duolingo.com</b> — bài thi thử chính thức</td><td>Miễn phí, không giới hạn số lần. Đây là nguồn sát đề nhất. Dùng cho ngày 7 và ngày 11.</td></tr>
+    <tr><td><b>BBC Learning English</b></td><td>Bài đọc ngắn có audio — luyện Listen and Type và từ nối.</td></tr>
+    <tr><td><b>TED-Ed</b> (video 4–6 phút, có phụ đề)</td><td>Luyện nghe học thuật và tập viết tóm tắt.</td></tr>
+    <tr><td><b>Unsplash / Pexels</b></td><td>Gõ "street", "market", "library"… lấy ảnh ngẫu nhiên để tập Write & Speak About the Photo.</td></tr>
+    <tr><td><b>File Excel + app kèm theo</b></td><td>Kế hoạch từng ngày, 124 từ bắt buộc, và 7 bài luyện có bấm giờ.</td></tr>
+  </table>
+
+  <div class="box good" style="margin-top:24px">
+    <span class="label">Việc quan trọng nhất trong 12 ngày</span>
+    <p>Làm bài thi thử chính thức <b>ít nhất hai lần</b>. Nó cho biết chính xác điểm đang ở đâu và phần nào đang kéo tụt điểm tổng. Mọi thứ khác trong tài liệu này chỉ có giá trị khi biết mình đang đứng ở đâu.</p>
+  </div>
+</section>
+
+<footer>
+  Tài liệu biên soạn theo format DET hiện hành (bản cập nhật 7/2025, áp dụng năm 2026). Format và quy định thi có thể thay đổi — kiểm tra lại trang chính thức của Duolingo English Test trước ngày thi.
+</footer>
+
+</div>
+</body>
+</html>
